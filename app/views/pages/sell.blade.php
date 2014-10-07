@@ -18,10 +18,10 @@
 <div class="row">
     <div class="large-4 columns"><label>I want to sell:</label></div>
     <div class="large-3 columns" style="padding-right:0;">
-        <input type="text"  name="order_amount" id="order_amount" onkeyup="AmountChange(this.form, 'sell');" value="100" >
+        <input type="text"  name="order_amount" id="order_amount"  value="100" >
     </div>
     <div class="large-3 columns">
-        <select  onchange="ValChange(this.form, 'sell');" name="cid" id="cid">
+        <select   name="cid" id="cid">
             @foreach($currencies as $currency)
             <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
             @endforeach
@@ -51,12 +51,12 @@
 </div>
 
 <div class="row text-center">
-    <b>Our fee <span id="OUR_FEE">20% (Our max fee: 10.00 USD)</span></b> + <b><span id="METHOD_FEE">25 USD Bank wire</span> fee</b></div><div class="row text-center"><i>Exchange Rates <span id="WORTH_RATE">1.00 USD = 1.00 USD</span></i></div><div class="row text-center">You will recieve <b><span id="FINAL_AMOUNT" class="view-only">65.00 Bank wire(USD) </span></b><p></p>
+   <!-- <b>Our fee <span id="OUR_FEE">20% (Our max fee: 10.00 USD)</span></b> + <b><span id="METHOD_FEE">25 USD Bank wire</span> fee</b></div><div class="row text-center"><i>Exchange Rates <span id="WORTH_RATE">1.00 USD = 1.00 USD</span></i></div>--><div class="row text-center">You will recieve <b><span id="FINAL_AMOUNT" class="view-only">65.00 Bank wire(USD) </span></b><p></p>
 </div>
 <div class="row" id="ERR_MESSAGE" style="color:#990000;; font-weight:bold">
 
 </div>
-<input  name="order_type" id="order_type" value="sell" type="hidden">
+<input  name="order_type" id="order_type" value="Sell" type="hidden">
 <div class="row">
     Enter your account type and your account number.
     Please take extra caution to ensure that you enter the correct account number for the account type you specify.

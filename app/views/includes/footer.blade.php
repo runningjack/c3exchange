@@ -51,7 +51,7 @@
                     <ul class="side-nav" role="navigation" title="Link List">
                         <li role="menuitem"><a href="#">Why E-currencies are growing?</a></li>
                         <li role="menuitem"><a href="#">What is E-currency exchange business</a></li>
-                        <li role="menuitem"><p><i class="fa fa-envelope"></i> <strong style="display: inline">Email:</strong> <a style="display: inline" href="mailto:support@c3exchanger.com">support@c3exchanger.com</a></p></li>
+                        <li role="menuitem"><p><i class="fa fa-envelope"></i> <strong style="">Email:</strong> <a style="display: inline" href="mailto:support@c3exchanger.com">support@c3exchanger.com</a></p></li>
 
 
                     </ul>
@@ -93,6 +93,69 @@
 <script src="js/foundation.min.js"></script>
 <script>
     $(document).foundation();
+    $(document).ready(function(){
+        var globals = { 'payment_target':'catchable','amt':0,'transcost':0,'total':0,'mReport':0,'curren':"" };
+
+        var baseUrl = "http://localhost/c3exchange/public/"
+        $("#cid").on("change",function(){
+
+            var $method = $(this).val()
+            var $curr   = $method.split(" ")
+            var otype   = $("#order_type").val()
+            globals.curren = $curr[1];
+            var urllink =$curr[0]+7+otype
+            console.log(urllink)
+            $.ajax({
+                url:"home/"+urllink,
+                type:"post",
+                data:{input:$curr[0]},
+                success: function(result){
+                    var myDataArray  = new Object;
+
+                    $.each( result, function( key, value ) {
+                        myDataArray[key]  = value ;
+                    });
+                    $("#destTxt").html("<strong>"+$curr[0]+" <i>("+$curr[1]+")</i></strong>")
+                    var orderamount = $("#order_amount").val();
+                    globals.amt =myDataArray[1]
+                    globals.payment_target =myDataArray[0]
+                    if(otype == "Buy"){
+                        $("#FINAL_AMOUNT").val(javaCeil(parseInt(orderamount)/parseInt(globals.amt),2))
+                    }else if(otype=="Sell"){
+                        $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+javaCeil(parseInt(orderamount)/parseInt(globals.amt),2)+" "+ globals.payment_target+ " <i>("+$curr[1] +")</i></strong></h4></span>")
+                    }
+                }
+            })
+        })
+
+        $("#order_amount").on("keypress",function(evt){
+            return isNumberKey(evt)
+            var orderamount = $(this).val();
+            $("#FINAL_AMOUNT").val(javaCeil(parseInt(orderamount)/parseInt(globals.amt),2))
+        })//currency_account
+        $("#order_amount").on("blur",function(evt){
+            //return isNumberKey(evt)
+            var orderamount = $(this).val();
+            var otype = $("#order_type").val()
+            if(otype == "Buy"){
+                $("#FINAL_AMOUNT").val(javaCeil(parseInt(orderamount)/parseInt(globals.amt),2))
+            }else if(otype=="Sell"){
+                $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+javaCeil(parseInt(orderamount)/parseInt(globals.amt),2)+" "+ globals.payment_target+ " <i>("+ globals.curren+")</i></strong></h4></span>")
+            }
+        })
+
+    })
+
+    function isNumberKey(evt){
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+
+    function javaCeil(str, precision) {
+        return str.toFixed(precision)
+    }
 </script>
 </body>
 </html>

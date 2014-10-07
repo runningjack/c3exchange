@@ -43,6 +43,7 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
  * */
 
 Route::get("/buy",array("as"=>"buy_currency","uses"=>'HomeController@showBuy'));
+Route::post("/home/{name?}",array("as"=>'descText','uses'=>'HomeController@DestTxt'));
 
 /*
  * section for sell e-currency

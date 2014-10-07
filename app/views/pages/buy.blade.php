@@ -25,13 +25,14 @@
                     <div class="row">
                         <div class="large-4 columns">I am sending  <span id="methodText">Bank wire/Bank Deposit</span>:</div>
                         <div class="large-3 columns" style="padding-right:0;">
-                            <input  type="text" name="order_amount" id="order_amount" onkeyup="AmountChange(this.form, 'buy');" value="100">
+                            <input  type="text" name="order_amount" id="order_amount"  value="100">
                         </div>
                         <div class="large-4 columns">
-                            <select  onchange="ValChange(this.form, 'buy');" name="method_id" id="method_id">
-                                @foreach($currencies as $currency)
-                                <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
+                            <select   name="method_id" id="method_id">
+                                @foreach($etypes as $etype)
+                                <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
                                 @endforeach
+
                             </select>
                         </div>
                     </div>
@@ -42,26 +43,25 @@
                             <input class=" currency_select" type="text" name="FINAL_AMOUNT" id="FINAL_AMOUNT" readonly="true" disabled="disabled" >
                         </div>
                         <div class="large-4 columns">
-                            <select  onchange="AmountChange(this.form,'buy');" name="cid" id="cid">
-
-                                @foreach($etypes as $etype)
-                                <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
+                            <select   name="cid" id="cid">
+                                @foreach($currencies as $currency)
+                                <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                    <input name="order_type" id="order_type" value="buy" type="hidden">
+                    <input name="order_type" id="order_type" value="Buy" type="hidden">
                     <div class="row text-center"><b>Our fee <span id="OUR_FEE">0%</span></b></div>
                     <div class="row text-center"><i>Exchange Rates <span id="WORTH_RATE">1.00 USD = 1.00 USD</span></i></div>
                     <div class="row text-center" id="ERR_MESSAGE" style="color:#990000;"></div>
                     <div class="row">Enter your account type and your account number. Please take extra caution to ensure that you enter the correct account number for the account type you specify.</div>
                     <div class="row"><strong>*</strong> indicates <b>required</b> fields</div>
 
-                    <legend>Currency inflammations:</legend>
+                    <legend>Currency informations:</legend>
                     <hr />
                     <div class="row">
-                        <div class="large-4 columns">Your <u id="dstText">C-gold <i>(USD)</i></u><strong>*</strong>: </div>
+                        <div class="large-4 columns">Your <u id="destTxt"></u><strong>*</strong>:</div>
                         <div class="large-6 columns"><input  type="text" name="currency_account" id="currency_account" value=""></div>
                     </div>
 

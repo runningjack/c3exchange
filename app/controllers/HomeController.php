@@ -87,6 +87,42 @@ class HomeController extends BaseController {
             ->with("etypes",DB::table("paytypes")->get());
     }
 
+    public function DestTxt($name){
+        //echo $name;
+        $darray = array();
+        $darray = explode("7",$name);
+        $data = array();
+        $result = DB::table("emoneys")
+
+            ->where("ecurrency",'"'.$darray[0].'"')->get();
+        $results = Emoney::all();
+        //print_r($result);
+        foreach($results as $result){
+            if($result->ecurrency == $darray[0]){
+               // $data = $result->ecurrency;
+                /*
+                   This loop is used to generate the rate for
+               selected currency
+               */
+                $data[] =$result->ecurrency;
+                //array_push($data,$result->ecurrency);
+                $rates = DB::table("rates")->get();
+                foreach($rates as $rate){
+                /*
+                    This loop is used to generate the rate for
+                selected currency
+                */
+                    if($rate->ecurrency == $darray[0] && $rate->extype == $darray[1]){
+                        $data[] =$rate->rate;
+                    }
+
+                }
+            }
+        }
+
+        return $data ;
+    }
+
     public function doRegister(){
         $validation = User::validate(Input::all());
         if($validation->fails()){
