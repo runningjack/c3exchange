@@ -21,12 +21,10 @@
         <input type="text"  name="order_amount" id="order_amount" onkeyup="AmountChange(this.form, 'sell');" value="100" >
     </div>
     <div class="large-3 columns">
-        <select class="form-control" onchange="ValChange(this.form, 'sell');" name="cid" id="cid">
-            <option value="5">C-gold USD</option>
-            <option value="6">Perfectmoney USD</option>
-            <option value="7">Pecunix USD</option>
-            <option value="13">Payza USD</option>
-            <option value="30">Bitcoin BTC</option>
+        <select  onchange="ValChange(this.form, 'sell');" name="cid" id="cid">
+            @foreach($currencies as $currency)
+            <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
+            @endforeach
         </select>
     </div>
 </div>
@@ -36,11 +34,10 @@
         <label>To my <span id="methodText">Bank wire</span></label>
     </div>
     <div class="large-6 columns">
-        <select class="form-control" onchange="AmountChange(this.form, 'sell');" name="method_id" id="method_id">
-            <option value="3">Bank Deposit NGN</option>
-            <option value="1">Bank wire USD</option>
-            <option value="2">Bank wire EUR</option>
-            <option value="6">MoneyGrams USD</option>
+        <select  onchange="AmountChange(this.form, 'sell');" name="method_id" id="method_id">
+            @foreach($etypes as $etype)
+            <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
+            @endforeach
         </select>
     </div>
 </div>
@@ -49,7 +46,7 @@
         <label>Your <span id="dstText">C-gold <i>(USD)</i></span>Account</label>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" maxlength="50" name="currency_account" id="currency_account" value="">
+        <input  type="text" maxlength="50" name="currency_account" id="currency_account" value="">
     </div>
 </div>
 
@@ -59,18 +56,19 @@
 <div class="row" id="ERR_MESSAGE" style="color:#990000;; font-weight:bold">
 
 </div>
-<input class="form-control" name="order_type" id="order_type" value="sell" type="hidden">
+<input  name="order_type" id="order_type" value="sell" type="hidden">
 <div class="row">
     Enter your account type and your account number.
     Please take extra caution to ensure that you enter the correct account number for the account type you specify.
 </div>
 <legend>Bank information:</legend>
+<hr />
 <div class="row">
     <div class="large-4 columns">
         Bank account number / IBAN<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_iban_number|req" id="bank_iban_number|req" value="">
+        <input  type="text" name="bank_iban_number" id="bank_iban_number" value="">
     </div>
 </div>
 
@@ -80,7 +78,7 @@
         Bank SWIFT / BIC code<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_swift_code|req" id="bank_swift_code|req" value="">
+        <input  type="text" name="bank_swift_code" id="bank_swift_code" value="">
     </div>
 </div>
 
@@ -89,7 +87,7 @@
         Bank Account Name<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_account_name|req" id="bank_account_name|req" value="">
+        <input  type="text" name="bank_account_name" id="bank_account_name" value="">
     </div>
 </div>
 
@@ -99,7 +97,7 @@
         Bank Name<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_name|req" id="bank_name|req" value="">
+        <input  type="text" name="bank_name" id="bank_name" value="">
     </div>
 </div>
 
@@ -108,7 +106,7 @@
     <div class="large-4 columns">
         Bank City<strong>*</strong>
     </div><div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_city|req" id="bank_city|req" value="">
+        <input  type="text" name="bank_city" id="bank_city" value="">
     </div>
 </div>
 
@@ -118,7 +116,7 @@
         Bank State<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_state|req" id="bank_state|req" value="">
+        <input  type="text" name="bank_state" id="bank_state" value="">
     </div>
 </div>
 
@@ -127,7 +125,7 @@
         Bank Zip<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="bank_zip_code|req" id="bank_zip_code|req" value="">
+        <input  type="text" name="bank_zip_code" id="bank_zip_code" value="">
     </div>
 </div>
 
@@ -136,7 +134,7 @@
         Bank Address<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <textarea class="form-control" rows="2" name="bank_address|req" id="bank_address|req">
+        <textarea  rows="2" name="bank_address" id="bank_address">
 
         </textarea>
     </div>
@@ -147,7 +145,7 @@
         Bank Name (If applicable)
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="termediary_name" id="termediary_name" value="">
+        <input  type="text" name="termediary_name" id="termediary_name" value="">
     </div>
 </div>
 <div class="row">
@@ -155,16 +153,17 @@
         Bank SWIFT/Routing (If applicable)
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="termediary_swift" id="termediary_swift" value="">
+        <input  type="text" name="termediary_swift" id="termediary_swift" value="">
     </div>
 </div>
 
 <legend>Personal information:</legend>
+<hr />
 <div class="row">
     <div class="large-4 columns">
         Full Name<strong>*</strong>
     </div><div class="large-6 columns">
-        <input class="form-control" type="text" name="full_name|req" id="full_name|req" value="">
+        <input  type="text" name="full_name" id="full_name" value="">
     </div>
 </div>
 
@@ -173,7 +172,7 @@
         E-mail address<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="email_address|req" id="email_address|req" value="">
+        <input  type="text" name="email_address" id="email_address" value="">
     </div>
 </div>
 <div class="row">
@@ -181,7 +180,7 @@
         Address (line 1)<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <textarea class="form-control" rows="2" name="personal_address|req" id="personal_address|req">
+        <textarea  rows="2" name="personal_address" id="personal_address">
 
         </textarea>
     </div>
@@ -192,7 +191,7 @@
         City<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="city|req" id="city|req" value="">
+        <input  type="text" name="city" id="city" value="">
     </div>
 </div>
 
@@ -201,14 +200,14 @@
         State or Province or Territory<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input class="form-control" type="text" name="state|req" id="state|req" value="">
+        <input  type="text" name="state" id="state" value="">
     </div>
 </div>
 <div class="row">
     <div class="large-4 columns">
         Zip/Postal Code<strong>*</strong>
     </div><div class="large-6 columns">
-        <input class="form-control" type="text" name="zip_code|req" id="zip_code|req" value="">
+        <input  type="text" name="zip_code" id="zip_code" value="">
     </div>
 </div>
 <div class="row">
@@ -216,7 +215,11 @@
         Country<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <select class="form-control" name="country|req" id="country|req">
+        <select  name="country" id="country">
+            <option value="0" selected="" disabled="">Country</option>
+            @foreach($country as $country)
+            <option value="{{$country->name}}">{{$country->name}}</option>
+            @endforeach
         </select>
     </div>
 </div>
@@ -227,7 +230,7 @@
         Questions or comments
     </div>
     <div class="large-6 columns">
-        <textarea class="form-control" rows="3" name="comment" id="comment">
+        <textarea  rows="3" name="comment" id="comment">
 
         </textarea>
     </div>
@@ -245,7 +248,7 @@
 </div>
 
 <label class="checkbox">
-    <input type="checkbox" value="true" name="licence_agreement|req" id="licence_agreement|req">
+    <input type="checkbox" value="true" name="licence_agreement" id="licence_agreement">
     I agree to the <a href="terms" target="_blank">
         Terms and Conditions.</a>
 </label>

@@ -23,23 +23,32 @@
                     <legend>Select e-currency you would like to buy</legend>
 
                     <div class="row">
-                        <div class="large-4 columns">I am sending  <span id="methodText">Bank wire</span>:</div>
-                        <div class="large-3 columns" style="padding-right:0;"><input class="form-control" type="text" name="order_amount" id="order_amount" onkeyup="AmountChange(this.form, 'buy');" value="100"></div>
+                        <div class="large-4 columns">I am sending  <span id="methodText">Bank wire/Bank Deposit</span>:</div>
+                        <div class="large-3 columns" style="padding-right:0;">
+                            <input  type="text" name="order_amount" id="order_amount" onkeyup="AmountChange(this.form, 'buy');" value="100">
+                        </div>
                         <div class="large-4 columns">
-                            <select class="form-control" onchange="ValChange(this.form, 'buy');" name="method_id" id="method_id">
-                                <option value="1">Bank wire USD</option>
-                                <option value="2">Bank wire EUR</option>
-                                <option value="3">Bank wire SGD</option>
-                                <option value="6">MoneyGrams USD</option>
+                            <select  onchange="ValChange(this.form, 'buy');" name="method_id" id="method_id">
+                                @foreach($currencies as $currency)
+                                <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="large-4 columns">You will receive:</div>
-                        <div class="large-3 columns" style="padding-right:0;"><input class="form-control currency_select" type="text" name="FINAL_AMOUNT" id="FINAL_AMOUNT" readonly="true" disabled="disabled" >
+                        <div class="large-3 columns" style="padding-right:0;">
+                            <input class=" currency_select" type="text" name="FINAL_AMOUNT" id="FINAL_AMOUNT" readonly="true" disabled="disabled" >
                         </div>
-                        <div class="large-4 columns"><select class="form-control" onchange="AmountChange(this.form,'buy');" name="cid" id="cid"><option value="5">C-gold USD</option><option value="6">Perfectmoney USD</option><option value="7">Pecunix USD</option><option value="13">Payza USD</option><option value="30">Bitcoin BTC</option></select></div>
+                        <div class="large-4 columns">
+                            <select  onchange="AmountChange(this.form,'buy');" name="cid" id="cid">
+
+                                @foreach($etypes as $etype)
+                                <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <input name="order_type" id="order_type" value="buy" type="hidden">
@@ -50,63 +59,53 @@
                     <div class="row"><strong>*</strong> indicates <b>required</b> fields</div>
 
                     <legend>Currency inflammations:</legend>
-
+                    <hr />
                     <div class="row">
                         <div class="large-4 columns">Your <u id="dstText">C-gold <i>(USD)</i></u><strong>*</strong>: </div>
-                        <div class="large-6 columns"><input class="form-control" type="text" name="currency_account" id="currency_account" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="currency_account" id="currency_account" value=""></div>
                     </div>
 
                     <div class="row">
                         <div class="large-4 columns">Your account Name (Title) <strong>*</strong>: </div>
-                        <div class="large-6 columns"><input class="form-control" type="text" name="account_name|req" id="account_name|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="account_name|req" id="account_name|req" value=""></div>
                     </div>
 
 
                     <legend>Personal information:</legend>
-
+                    <hr />
                     <div class="row">
                         <div class="large-4 columns">E-mail address <strong>*</strong>: </div>
-                        <div class="large-6 columns"><input class="form-control" type="text" name="email_address|req" id="email_address|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="email_address|req" id="email_address|req" value=""></div>
                     </div>
 
                     <div class="row">
                         <div class="large-4 columns">Full Name <strong>*</strong>: </div>
-                        <div class="large-6 columns"><input class="form-control" type="text" name="full_name|req" id="full_name|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="full_name|req" id="full_name|req" value=""></div>
                     </div>
 
 
                     <div class="row">
                         <div class="large-4 columns">Country <strong>*</strong>: </div>
-                        <div class="large-6 columns"><select class="form-control" name="country|req" id="country|req">
-                                </select></div>
+                        <div class="large-6 columns">
+                            <select  name="country|req" id="country|req">
+                                <option value="0" selected="" disabled="">Country</option>
+                                @foreach($country as $country)
+                                <option value="{{$country->name}}">{{$country->name}}</option>
+                                @endforeach
+                            </select></div>
                     </div>
-                    <!--
-                    <label id="address"><span>Address (line 1) <strong>*</strong>: </span>
-                    <input class="form-control" type="text" name="address|req" id="address|req" value="" /></label>
 
-                    <label id="address2"><span>Address (optional line 2) : </span>
-                    <input class="form-control" type="text" name="address2" id="address2" value="" /></label>
-
-                    <label id="city"><span>City <strong>*</strong>: </span>
-                    <input class="form-control" type="text" name="city|req" id="city|req" value="" /></label>
-
-                    <label id="state"><span>State or Province or Territory <strong>*</strong>: </span>
-                    <input class="form-control" type="text" name="state|req" id="state|req" value="" /></label>
-
-                    <label id="zip_code"><span>Zip/Postal Code <strong>*</strong>: </span>
-                    <input class="form-control" type="text" name="zip_code|req" id="zip_code|req" value="" /></label>
-                    -->
-                    <div class="row">Please enter your full contact phone number below, INCLUDING country codes. For example, if you lived in the United States and your number was area code 310, number 555-1212, you would enter 1-310-555-1212, since the country code is 1 for the United States.</div>
+                    <div class="row">Please enter your full contact phone number below, INCLUDING country codes. </div>
                     <div class="row">
                         <div class="large-4 columns">Phone Number <strong>*</strong>:</div>
-                        <div class="large-6 columns"><input class="form-control" type="text" name="phone_number|req" id="phone_number|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="phone_number|req" id="phone_number|req" value=""></div>
                     </div>
                     <!--
                     <label id="cell_phone_number"><span>SMS/Cell phone Number :</span>
-                    <input class="form-control" name="cell_phone_number" id="cell_phone_number" value="" /></label>
+                    <input  name="cell_phone_number" id="cell_phone_number" value="" /></label>
                     -->
                     <div class="row">Your IP Address: 41.220.69.150</div>
-                    <input class="form-control" name="ip_address" type="hidden" id="ip_address" value="41.220.69.150">
+                    <input  name="ip_address" type="hidden" id="ip_address" value="41.220.69.150">
 
 
                     <div class="row">Your order will not be submitted until you click <b>Confirm Order</b> on the next page.</div>
@@ -116,7 +115,7 @@
                     </label>
 
                     <div class="row">
-                        <div class="large-7 columns" style="padding-right:6px;"><input placeholder="Code" class="form-control" type="text" name="turning_buysell" id="turning_buysell" autocomplete="off"></div>
+                        <div class="large-7 columns" style="padding-right:6px;"><input placeholder="Code"  type="text" name="turning_buysell" id="turning_buysell" autocomplete="off"></div>
                         <div class="large-1 columns" style="padding:9px 0 0 0;"></div>
                     </div>
 

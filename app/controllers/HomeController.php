@@ -74,11 +74,17 @@ class HomeController extends BaseController {
     }
 
     public function showBuy(){
-        return View::make('pages.buy');
+        return View::make('pages.buy')
+            ->with("currencies",DB::table("emoneys")->get())
+            ->with("country",DB::table("country")->get())
+            ->with("etypes",DB::table("paytypes")->get());
     }
 
     public function showSell(){
-        return View::make('pages.sell');
+        return View::make('pages.sell')
+            ->with("currencies",DB::table("emoneys")->get())
+            ->with("country",DB::table("country")->get())
+            ->with("etypes",DB::table("paytypes")->get());
     }
 
     public function doRegister(){
