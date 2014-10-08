@@ -43,7 +43,7 @@
                             <input class=" currency_select" type="text" name="FINAL_AMOUNT" id="FINAL_AMOUNT" readonly="true" disabled="disabled" >
                         </div>
                         <div class="large-4 columns">
-                            <select   name="cid" id="cid">
+                            <select   name="ecurrency" id="ecurrency">
                                 @foreach($currencies as $currency)
                                 <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
                                 @endforeach

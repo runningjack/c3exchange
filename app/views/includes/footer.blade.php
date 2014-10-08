@@ -92,59 +92,94 @@
 <script src="js/vendor/jquery.js"></script>
 <script src="js/foundation.min.js"></script>
 <script>
+    var globals = { 'payment_target':'catchable','amt':1,'transcost':0,'total':0,'orderAmt':1,'curren':"" };
+    var myDataArray  = new Object;
     $(document).foundation();
     $(document).ready(function(){
-        var globals = { 'payment_target':'catchable','amt':0,'transcost':0,'total':0,'mReport':0,'curren':"" };
+
 
         var baseUrl = "http://localhost/c3exchange/public/"
-        $("#cid").on("change",function(){
+        $("#ecurrency").on("change",function(){
 
             var $method = $(this).val()
             var $curr   = $method.split(" ")
             var otype   = $("#order_type").val()
             globals.curren = $curr[1];
-            var urllink =$curr[0]+7+otype
-            console.log(urllink)
+            var urlparam =$curr[0]+7+otype //this needed backend ajax
+            var orderamount = $("#order_amount").val();
             $.ajax({
-                url:"home/"+urllink,
+                url:"home/"+urlparam,
                 type:"post",
                 data:{input:$curr[0]},
                 success: function(result){
-                    var myDataArray  = new Object;
-
                     $.each( result, function( key, value ) {
                         myDataArray[key]  = value ;
                     });
                     $("#destTxt").html("<strong>"+$curr[0]+" <i>("+$curr[1]+")</i></strong>")
-                    var orderamount = $("#order_amount").val();
+
                     globals.amt =myDataArray[1]
-                    globals.payment_target =myDataArray[0]
+                    treatNumeric(orderamount,globals.amt)
+                    globals.payment_target =myDataArray[0] //get the ecurrency from index
+
                     if(otype == "Buy"){
-                        $("#FINAL_AMOUNT").val(javaCeil(parseInt(orderamount)/parseInt(globals.amt),2))
+                        globals.total = eval(javaCeil(parseInt(globals.orderAmt)/parseInt(globals.amt),2))
+                        $("#FINAL_AMOUNT").val(globals.total)
                     }else if(otype=="Sell"){
-                        $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+javaCeil(parseInt(orderamount)/parseInt(globals.amt),2)+" "+ globals.payment_target+ " <i>("+$curr[1] +")</i></strong></h4></span>")
+                        globals.total = eval(javaCeil(parseInt(globals.orderAmt)*parseInt(globals.amt),2))
+                        $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+ globals.total +" "+ $("#method_id").val()+ " <i></i></strong></h4></span>")
                     }
+                    $("#total_amount").val(globals.total)
+                    $("#final_amount").val(globals.total)
+                    $("#offer_amount").val(globals.amt)
                 }
             })
         })
 
         $("#order_amount").on("keypress",function(evt){
             return isNumberKey(evt)
-            var orderamount = $(this).val();
-            $("#FINAL_AMOUNT").val(javaCeil(parseInt(orderamount)/parseInt(globals.amt),2))
-        })//currency_account
+        })
         $("#order_amount").on("blur",function(evt){
-            //return isNumberKey(evt)
-            var orderamount = $(this).val();
+            treatNumeric($(this).val(),globals.amt)
             var otype = $("#order_type").val()
             if(otype == "Buy"){
-                $("#FINAL_AMOUNT").val(javaCeil(parseInt(orderamount)/parseInt(globals.amt),2))
+                globals.total = eval(javaCeil(parseInt(globals.orderAmt)/parseInt(globals.amt),2))
+                $("#FINAL_AMOUNT").val(globals.total)
+
             }else if(otype=="Sell"){
-                $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+javaCeil(parseInt(orderamount)/parseInt(globals.amt),2)+" "+ globals.payment_target+ " <i>("+ globals.curren+")</i></strong></h4></span>")
+                globals.total = eval(javaCeil(parseInt(globals.orderAmt)*parseInt(globals.amt),2))
+                $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+ globals.total +" "+ $("#method_id").val()+ " <i></i></strong></h4></span>")
             }
+            $("#total_amount").val(globals.total)
+            $("#final_amount").val(globals.total)
+            $("#offer_amount").val(globals.amt)
         })
 
     })
+    /*
+    * treatNumeric is a function to make sure
+    * that order amount and currency amount is
+    * not set to zero or is not a numeric value
+    *
+    * this method is to be called to for the
+    * ecurrency sell and buy dropdowns
+    * */
+    function treatNumeric(orderamt,curramt){
+
+        //this orderamt field is to get the user order or offer
+        //input for both sell and buy
+        if(orderamt==0 || isNaN(orderamt)){
+            globals.orderAmt = 1
+        }else{
+            globals.orderAmt = orderamt
+        }
+        //this curramt field is to get the currency exchange rate through ajax
+        //for both sell and buy
+        if(curramt==0 || isNaN(curramt)){
+            globals.amt = 1
+        }else{
+            globals.amt = curramt
+        }
+    }
 
     function isNumberKey(evt){
         var charCode = (evt.which) ? evt.which : event.keyCode

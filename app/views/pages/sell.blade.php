@@ -12,8 +12,17 @@
 <div class="row">
 <h2>Sell E- Currency</h2>
 <div id="status_box">
-<div id="dynMsg"></div>
-<form action="" method="post" name="order_form" id="order_form">
+<div id="dynMsg">
+
+    @if($errors->has())
+        <div class='alert-box alert'> {{$errors->first("order_amount","<li>:message</li>")}}</div>
+        <div class='alert-box alert'> {{$errors->first("ecurrency","<li>:message</li>")}}</div>
+        <div class='alert-box alert'> {{$errors->first("cus_fullname","<li>:message</li>")}}</div>
+    @endif
+
+
+</div>
+<form action="orderPost" method="post" name="order_form" id="order_form">
 <fieldset><legend>Sell e-currency to us</legend>
 <div class="row">
     <div class="large-4 columns"><label>I want to sell:</label></div>
@@ -21,7 +30,8 @@
         <input type="text"  name="order_amount" id="order_amount"  value="100" >
     </div>
     <div class="large-3 columns">
-        <select   name="cid" id="cid">
+        <select   name="ecurrency" id="ecurrency">
+            <option value="">--SELECT E-CURRENCY--</option>
             @foreach($currencies as $currency)
             <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
             @endforeach
@@ -34,7 +44,7 @@
         <label>To my <span id="methodText">Bank wire</span></label>
     </div>
     <div class="large-6 columns">
-        <select  onchange="AmountChange(this.form, 'sell');" name="method_id" id="method_id">
+        <select   name="method_id" id="method_id">
             @foreach($etypes as $etype)
             <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
             @endforeach
@@ -43,10 +53,10 @@
 </div>
 <div class="row">
     <div class="large-4 columns">
-        <label>Your <span id="dstText">C-gold <i>(USD)</i></span>Account</label>
+        <label>Your <span id="destTxt">C-gold <i>(USD)</i></span>Account</label>
     </div>
     <div class="large-6 columns">
-        <input  type="text" maxlength="50" name="currency_account" id="currency_account" value="">
+        <input  type="text" maxlength="50" name="ecurrency_account" id="ecurrency_account" value="">
     </div>
 </div>
 
@@ -57,6 +67,10 @@
 
 </div>
 <input  name="order_type" id="order_type" value="Sell" type="hidden">
+<input name="total_amount" id="total_amount" value="0" type="hidden">
+<input name="final_amount" id="final_amount" value="0" type="hidden">
+<input name="offer_amount" id="offer_amount" value="0" type="hidden">
+<input name="ecurrency_title" id="ecurrency_title" value="0" type="hidden">
 <div class="row">
     Enter your account type and your account number.
     Please take extra caution to ensure that you enter the correct account number for the account type you specify.
@@ -68,7 +82,7 @@
         Bank account number / IBAN<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input  type="text" name="bank_iban_number" id="bank_iban_number" value="">
+        <input  type="text" name="bank_account_no" id="bank_account_no" value="">
     </div>
 </div>
 
@@ -125,7 +139,7 @@
         Bank Zip<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input  type="text" name="bank_zip_code" id="bank_zip_code" value="">
+        <input  type="text" name="bank_zip" id="bank_zip" value="">
     </div>
 </div>
 
@@ -163,7 +177,7 @@
     <div class="large-4 columns">
         Full Name<strong>*</strong>
     </div><div class="large-6 columns">
-        <input  type="text" name="full_name" id="full_name" value="">
+        <input  type="text" name="cus_fullname" id="cus_fullname" value="">
     </div>
 </div>
 
@@ -172,7 +186,7 @@
         E-mail address<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input  type="text" name="email_address" id="email_address" value="">
+        <input  type="text" name="cus_email" id="cus_email" value="">
     </div>
 </div>
 <div class="row">
@@ -180,7 +194,7 @@
         Address (line 1)<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <textarea  rows="2" name="personal_address" id="personal_address">
+        <textarea  rows="2" name="cus_address" id="cus_address">
 
         </textarea>
     </div>
@@ -191,7 +205,7 @@
         City<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input  type="text" name="city" id="city" value="">
+        <input  type="text" name="cus_city" id="cus_city" value="">
     </div>
 </div>
 
@@ -200,14 +214,14 @@
         State or Province or Territory<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <input  type="text" name="state" id="state" value="">
+        <input  type="text" name="cus_state" id="cus_state" value="">
     </div>
 </div>
 <div class="row">
     <div class="large-4 columns">
         Zip/Postal Code<strong>*</strong>
     </div><div class="large-6 columns">
-        <input  type="text" name="zip_code" id="zip_code" value="">
+        <input  type="text" name="cus_zip" id="cus_zip" value="">
     </div>
 </div>
 <div class="row">

@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/',array('as'=>'home'), function()
+Route::get('/', function()
 {
     return View::make('pages.home');
 });
@@ -41,9 +41,7 @@ Route::post('login', array('uses' => 'HomeController@doLogin'));
  * section for buy e-currency
  *
  * */
-
 Route::get("/buy",array("as"=>"buy_currency","uses"=>'HomeController@showBuy'));
-Route::post("/home/{name?}",array("as"=>'descText','uses'=>'HomeController@DestTxt'));
 
 /*
  * section for sell e-currency
@@ -51,4 +49,7 @@ Route::post("/home/{name?}",array("as"=>'descText','uses'=>'HomeController@DestT
  * */
 
 Route::get("/sell",array("as"=>"sell_currency","uses"=>'HomeController@showSell'));
+Route::get("/sell",array("as"=>"new_order","uses"=>"HomeController@showSell"));
+Route::post("/home/{name?}",array("as"=>'descText','uses'=>'HomeController@DestTxt'));
+Route::post("/orderPost",array("as"=>"ord_create","uses"=>"HomeController@orderPost"));
 
