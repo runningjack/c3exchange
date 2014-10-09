@@ -22,7 +22,7 @@
 
 
 </div>
-<form action="orderPost" method="post" name="order_form" id="order_form">
+<form action="summary" method="post" name="order_form" id="order_form">
 <fieldset><legend>Sell e-currency to us</legend>
 <div class="row">
     <div class="large-4 columns"><label>I want to sell:</label></div>
@@ -44,7 +44,7 @@
         <label>To my <span id="methodText">Bank wire</span></label>
     </div>
     <div class="large-6 columns">
-        <select   name="method_id" id="method_id">
+        <select   name="order_transfer_type" id="order_transfer_type">
             @foreach($etypes as $etype)
             <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
             @endforeach
@@ -194,9 +194,7 @@
         Address (line 1)<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <textarea  rows="2" name="cus_address" id="cus_address">
-
-        </textarea>
+        <textarea  rows="2" name="cus_address" id="cus_address"></textarea>
     </div>
 </div>
 
@@ -229,7 +227,7 @@
         Country<strong>*</strong>
     </div>
     <div class="large-6 columns">
-        <select  name="country" id="country">
+        <select  name="cus_country" id="cus_country">
             <option value="0" selected="" disabled="">Country</option>
             @foreach($country as $country)
             <option value="{{$country->name}}">{{$country->name}}</option>

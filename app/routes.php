@@ -52,4 +52,6 @@ Route::get("/sell",array("as"=>"sell_currency","uses"=>'HomeController@showSell'
 Route::get("/sell",array("as"=>"new_order","uses"=>"HomeController@showSell"));
 Route::post("/home/{name?}",array("as"=>'descText','uses'=>'HomeController@DestTxt'));
 Route::post("/orderPost",array("as"=>"ord_create","uses"=>"HomeController@orderPost"));
+Route::post("/summary",array("as"=>"summary","uses"=>"HomeController@postsummary"));
+Route::get("/summary",array("as"=>"show_summary","uses"=>"HomeController@getsummary"));
 

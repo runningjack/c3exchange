@@ -18,7 +18,7 @@
         <div id="status_box">
             <div id="dynMsg"></div>
 
-            <form method="post" action="#" name="order_form" id="order_form">
+            <form method="post" action="summary" name="order_form" id="order_form">
                 <fieldset>
                     <legend>Select e-currency you would like to buy</legend>
 
@@ -28,7 +28,7 @@
                             <input  type="text" name="order_amount" id="order_amount"  value="100">
                         </div>
                         <div class="large-4 columns">
-                            <select   name="method_id" id="method_id">
+                            <select   name="order_transfer_type" id="order_transfer_type">
                                 @foreach($etypes as $etype)
                                 <option value="{{$etype->paytype}} {{ $etype->paycurrency}}">{{$etype->paytype}} {{ $etype->paycurrency}}</option>
                                 @endforeach
@@ -52,8 +52,12 @@
                     </div>
 
                     <input name="order_type" id="order_type" value="Buy" type="hidden">
+                    <input name="total_amount" id="total_amount" value="0" type="hidden">
+                    <input name="final_amount" id="final_amount" value="0" type="hidden">
+                    <input name="offer_amount" id="offer_amount" value="0" type="hidden">
+                    <input name="ecurrency_title" id="ecurrency_title" value="0" type="hidden">
                     <div class="row text-center"><b>Our fee <span id="OUR_FEE">0%</span></b></div>
-                    <div class="row text-center"><i>Exchange Rates <span id="WORTH_RATE">1.00 USD = 1.00 USD</span></i></div>
+                    <!--<div class="row text-center"><i>Exchange Rates <span id="WORTH_RATE">1.00 USD = 1.00 USD</span></i></div>-->
                     <div class="row text-center" id="ERR_MESSAGE" style="color:#990000;"></div>
                     <div class="row">Enter your account type and your account number. Please take extra caution to ensure that you enter the correct account number for the account type you specify.</div>
                     <div class="row"><strong>*</strong> indicates <b>required</b> fields</div>
@@ -62,12 +66,12 @@
                     <hr />
                     <div class="row">
                         <div class="large-4 columns">Your <u id="destTxt"></u><strong>*</strong>:</div>
-                        <div class="large-6 columns"><input  type="text" name="currency_account" id="currency_account" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="ecurrency_account" id="ecurrency_account" value=""></div>
                     </div>
 
                     <div class="row">
                         <div class="large-4 columns">Your account Name (Title) <strong>*</strong>: </div>
-                        <div class="large-6 columns"><input  type="text" name="account_name|req" id="account_name|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="ecurrency_title" id="ecurrency_title" value=""></div>
                     </div>
 
 
@@ -75,20 +79,54 @@
                     <hr />
                     <div class="row">
                         <div class="large-4 columns">E-mail address <strong>*</strong>: </div>
-                        <div class="large-6 columns"><input  type="text" name="email_address|req" id="email_address|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="cus_email" id="cus_email" value=""></div>
                     </div>
 
                     <div class="row">
                         <div class="large-4 columns">Full Name <strong>*</strong>: </div>
-                        <div class="large-6 columns"><input  type="text" name="full_name|req" id="full_name|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="cus_fullname" id="cus_fullname" value=""></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 columns">
+                            Address (line 1)<strong>*</strong>
+                        </div>
+                        <div class="large-6 columns">
+                            <textarea  rows="2" name="cus_address" id="cus_address"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 columns">
+                            City<strong>*</strong>
+                        </div>
+                        <div class="large-6 columns">
+                            <input  type="text" name="cus_city" id="cus_city" value="">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 columns">
+                            State or Province or Territory<strong>*</strong>
+                        </div>
+                        <div class="large-6 columns">
+                            <input  type="text" name="cus_state" id="cus_state" value="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 columns">
+                            Zip/Postal Code<strong>*</strong>
+                        </div><div class="large-6 columns">
+                            <input  type="text" name="cus_zip" id="cus_zip" value="">
+                        </div>
                     </div>
 
 
                     <div class="row">
                         <div class="large-4 columns">Country <strong>*</strong>: </div>
                         <div class="large-6 columns">
-                            <select  name="country|req" id="country|req">
-                                <option value="0" selected="" disabled="">Country</option>
+                            <select  name="cus_country" id="cus_country">
+                                <option value="" selected="" disabled="">Country</option>
                                 @foreach($country as $country)
                                 <option value="{{$country->name}}">{{$country->name}}</option>
                                 @endforeach
@@ -98,7 +136,7 @@
                     <div class="row">Please enter your full contact phone number below, INCLUDING country codes. </div>
                     <div class="row">
                         <div class="large-4 columns">Phone Number <strong>*</strong>:</div>
-                        <div class="large-6 columns"><input  type="text" name="phone_number|req" id="phone_number|req" value=""></div>
+                        <div class="large-6 columns"><input  type="text" name="cus_phone" id="cus_phone" value=""></div>
                     </div>
                     <!--
                     <label id="cell_phone_number"><span>SMS/Cell phone Number :</span>
@@ -111,14 +149,14 @@
                     <div class="row">Your order will not be submitted until you click <b>Confirm Order</b> on the next page.</div>
 
                     <label class="checkbox">
-                        <input name="licence_agreement|req" id="licence_agreement|req" type="checkbox" class="checkbox" value="true" style="width:20px"> I agree to the <a href="http://demo.auto-exchanger.com/nview.php?title=Terms of services" target="_blank">Terms and Conditions.</a>
+                        <input name="licence_agreement" id="licence_agreement" required="required" type="checkbox" class="checkbox" value="true" style="width:20px"> I agree to the <a href="http://demo.auto-exchanger.com/nview.php?title=Terms of services" target="_blank">Terms and Conditions.</a>
                     </label>
-
+<!--
                     <div class="row">
                         <div class="large-7 columns" style="padding-right:6px;"><input placeholder="Code"  type="text" name="turning_buysell" id="turning_buysell" autocomplete="off"></div>
                         <div class="large-1 columns" style="padding:9px 0 0 0;"></div>
                     </div>
-
+-->
 
 
                     <div class="row">

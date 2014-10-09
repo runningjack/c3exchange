@@ -168,16 +168,73 @@ class HomeController extends BaseController {
         }
     }
 
+    public function getsummary(){
+        return View::make('pages.summary');
+    }
 
-    public function orderPost(){
+    public function postsummary(){
         $validation = Order::validate(Input::all());
         if($validation->fails()){
             return Redirect::Route("new_order")->withErrors($validation)->withInput();
         }else{
             try{
                 $order = new Order();
-
+                $order->order_id                        =   Order::order_reference("");
                 $order->order_type                      =   Input::get("order_type");
+                $order->order_transfer_type              =   Input::get("order_transfer_type");
+                $order->order_amount                    =   Input::get("order_amount");
+                $order->final_amount                    =   Input::get("final_amount");
+                //$order->fee_amount                    =   Input::get("dob");
+                $order->total_amount                    =   Input::get("total_amount");
+                $order->offer_amount                    =   Input::get("offer_amount");
+                $order->ecurrency                       =   Input::get("ecurrency");
+                //$order->curreny                       =   Input::get("soo");
+                if($order->order_type == "Sell" ){
+                    $order->bank_account_no                 =   Input::get("bank_account_no");
+                    $order->bank_swift_code                 =   Input::get("bank_swift_code");
+                    $order->bank_account_name               =   Input::get("bank_account_name");
+                    $order->bank_name                       =   Input::get("bank_name");
+                    $order->bank_address                    =   Input::get("bank_address");
+                    $order->bank_city                       =   Input::get('bank_city');
+                    $order->bank_state                      =   Input::get("bank_state");
+                    $order->bank_zip                        =   Input::get("bank_zip");
+                    $order->bank_routing                    =   Input::get("termediary_swift");
+                    $order->comment                         =   Input::get("comment");
+                }
+
+                $order->cus_fullname                    =   Input::get("cus_fullname");
+                $order->cus_email                       =   Input::get("cus_email");
+                $order->cus_address                     =   Input::get("cus_address");
+                $order->cus_city                        =   Input::get("cus_city");
+                $order->cus_state                       =   Input::get("cus_state");
+                $order->cus_zip                         =   Input::get("cus_zip") ;
+                $order->cus_country                     =   Input::get("cus_country");
+
+                $order->ecurrency_account               =   Input::get("ecurrency_account");
+                $order->ecurrency_title                 =   Input::get("ecurrency_title");
+                $order->created_at                      =   date("Y-m-d H:i:s");
+                $order->updated_at                      =   date("Y-m-d H:i:s");
+                Session::put("orderobj",serialize($order));
+                return View::make("pages.summary")->with("order",$order);
+            }
+            catch (Exception $e ){
+                echo var_dump($e->getMessage());
+            }
+        }
+    }
+
+
+    public function orderPost(){
+        if(Session::has("orderobj")){
+            $order = new Order();
+            $order = unserialize(Session::get("orderobj"));
+            $order->save();
+            return Redirect::Route("success")->with("message","Thnak you for choosing us you order is being processed");
+        }else{
+            try{
+
+                $order = Session::get("orderobj");
+                /*$order->order_type                      =   Input::get("order_type");
                 $order->order_amount                    =   Input::get("order_amount");
                 $order->final_amount                    =   Input::get("final_amount");
                 //$order->fee_amount                    =   Input::get("dob");
@@ -205,9 +262,9 @@ class HomeController extends BaseController {
                 $order->ecurrency_account               =   Input::get("ecurrency_account");
                 $order->ecurrency_title                 =   Input::get("ecurrency_title");
                 $order->created_at                      =   date("Y-m-d H:i:s");
-                $order->updated_at                      =   date("Y-m-d H:i:s");
+                $order->updated_at                      =   date("Y-m-d H:i:s");*/
                 $order->save();
-                return Redirect::route("student_list")->with("message","Student Successfully created");
+                return Redirect::route("success")->with("message","Student Successfully created");
             }
             catch (Exception $e ){
                 echo var_dump($e->getMessage());
