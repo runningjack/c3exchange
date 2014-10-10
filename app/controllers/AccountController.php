@@ -7,5 +7,17 @@
  */
 
 class AccountController extends BaseController {
+    public function showHome(){
+        return View::make("account.home");
+    }
+    public function showProfile(){
+        return View::make("account.profile");
+    }
+    public function showOrders(){
+        //$orders = new Order();
+        $orders = DB::table("orders")->get();
+        return View::make("account.orderlisting", array('orders' => $orders));
+       // print_r($orders);
 
-} 
+    }
+ }

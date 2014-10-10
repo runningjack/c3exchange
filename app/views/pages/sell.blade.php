@@ -250,14 +250,14 @@
 <div class="row">
     Your order will not be submitted until you click <b>Confirm Order</b> on the next page.
 </div>
-<div class="row">
+<!--<div class="row">
     <div class="large-7 columns" style="padding-right:6px;">
         <input placeholder="Code" class="form-control placeholder" type="text" name="turning_buysell" id="turning_buysell" autocomplete="off">
     </div>
     <div class="large-1 columns" style="padding:9px 0 0 0;">
 
     </div>
-</div>
+</div>-->
 
 <label class="checkbox">
     <input type="checkbox" value="true" name="licence_agreement" id="licence_agreement">

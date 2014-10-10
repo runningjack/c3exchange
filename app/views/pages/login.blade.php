@@ -10,7 +10,7 @@
 @extends('layouts.sidebar')
 @section('content')
 <div class="large-10 columns">
-{{ Form::open(array('url' => 'login')) }}
+    <form action="login" method="post" name="order_form" id="order_form">
 <h1>Login</h1>
 
 <!-- if there are login errors, show them here -->

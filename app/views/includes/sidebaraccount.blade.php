@@ -12,14 +12,14 @@
     <div id="alertme"></div>
 </div>
 <div class="sideContent">
-<ul class="side-nav">
+    <ul class="side-nav">
+        <li>{{ HTML::link('account/home', 'My Account Home' ) }}</li>
+        <li>{{ HTML::link('account/profile', 'Profile' ) }}</li>
+        <li>{{ HTML::link('account/orders', 'My Orders' ) }}</li>
+        <li>{{ HTML::link('account/changepass', 'Change Password' ) }}</li>
+        <li>{{ HTML::link('logout', 'Logout' ) }}</li>
 
-    <li><a href="#">Link 1</a></li>
-    <li><a href="#">Link 2</a></li>
-    <li><a href="#">Link 3</a></li>
-    <li><a href="#">Link 4</a></li>
-
-</ul>
+    </ul>
 </div>
 @if(!Auth::check())
 <div class="sideHeading">

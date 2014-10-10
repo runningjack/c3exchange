@@ -15,17 +15,27 @@ class HomeController extends BaseController {
 	|
 	*/
 
+
 	public function showWelcome()
 	{
 		return View::make('hello');
 	}
+
+
+    public function showHome(){
+
+        return View::make("account.home")
+            ->with("title", "")
+            ->with("myuser", Auth::user())
+            ->with("orders",DB::table("orders")->where('cus_id', '=', Auth::user()->id));
+    }
 
     public function showLogin(){
         return View::make('pages.login');
     }
 
     public function doLogin(){
-        // validate the info, create rules for the inputs
+        $userdata = array();        // validate the info, create rules for the inputs;
         $rules = array(
             'email'    => 'required|email', // make sure the email is an actual email
             'password' => 'required|alphaNum|min:3' // password can only be alphanumeric and has to be greater than 3 characters
@@ -49,10 +59,10 @@ class HomeController extends BaseController {
 
             // attempt to do the login
             if (Auth::attempt($userdata)) {
-
-                // validation successful! redirect them to the secure section or whatever
+                // validation successful! redirect them to the secure section or whatever->with("message","Registration Successful! <br /> "
                 // return Redirect::to('secure');
-                echo 'SUCCESS!';
+                //$stud = DB::table("users")->where('id', '=', Auth::user()->id);
+                return Redirect::route("account");
 
             } else {
 
@@ -62,6 +72,11 @@ class HomeController extends BaseController {
             }
 
         }
+    }
+
+    public function doLogout(){
+        Auth::logout();
+        return Redirect::route("account");
     }
 
     public function showRegister(){

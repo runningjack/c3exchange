@@ -285,6 +285,51 @@ sidebar
     margin-bottom: 30px;
 }
 
+.list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+.portlet .box .green {
+    border: 1px solid #77e588;
+    border-top: 0;
+}
+.portlet .box {
+    padding: 0px !important;
+}
+.portlet-body .green, .portlet .green {
+    background-color: #35aa47 !important;
+}
+.portlet {
+    clear: both;
+    margin-top: 0px;
+    margin-bottom: 25px;
+    padding: 0px;
+}
+
+.portlet-title h4 {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 7px;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+table {
+    max-width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.even {
+    background-color: #F9F9F9 !important;
+}
+
 
 
 

@@ -34,8 +34,7 @@ Route::get('/success',array('as'=>'success',"uses"=>"HomeController@showSuccess"
 // route to show the login form
 Route::get('/login', array('as'=>'login','uses' => 'HomeController@showLogin'));
 
-// route to process the form
-Route::post('login', array('uses' => 'HomeController@doLogin'));
+
 
 /*
  * section for buy e-currency
@@ -55,3 +54,37 @@ Route::post("/orderPost",array("as"=>"ord_create","uses"=>"HomeController@orderP
 Route::post("/summary",array("as"=>"summary","uses"=>"HomeController@postsummary"));
 Route::get("/summary",array("as"=>"show_summary","uses"=>"HomeController@getsummary"));
 
+
+
+Route::post('login', function () {
+    $user = array(
+        'email' => Input::get('email'),
+        'password' => Input::get('password')
+    );
+
+    if (Auth::attempt($user)) {
+        //return View::make('account');
+        return Redirect::route('account');
+           // ->with('flash_notice', 'You are successfully logged in.');
+    }
+
+    // authentication failure! lets go back to the login page
+    return Redirect::route('login')
+        ->with('flash_error', 'Your username/password combination was incorrect.')
+        ->withInput();
+});
+
+Route::get("account/home",array("as"=>"account",'before' => 'auth',"uses"=>"AccountController@showHome"));
+Route::get("account/profile",array("as"=>"profile",'before' => 'auth',"uses"=>"AccountController@showProfile"));
+Route::get("account/orders",array("as"=>"orderlisting",'before' => 'auth',"uses"=>"AccountController@showOrders"));
+Route::get("account/changepass",array("as"=>"changepass",'before' => 'auth',"uses"=>"AccountController@showChangepass"));
+//Route::get('logout', array('as' => 'logout', function () { }))->before('auth');
+
+
+
+Route::get('logout', array('as' => 'logout', function () {
+    Auth::logout();
+
+    return Redirect::route('login')
+        ->with('flash_notice', 'You are successfully logged out.');
+}))->before('auth');
