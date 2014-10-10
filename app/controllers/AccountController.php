@@ -15,7 +15,9 @@ class AccountController extends BaseController {
     }
     public function showOrders(){
         //$orders = new Order();
-        $orders = DB::table("orders")->get();
+        $orders = DB::table("orders")
+            ->where("cus_id","=",Session::get("userid"))
+            ->get();
         return View::make("account.orderlisting", array('orders' => $orders));
        // print_r($orders);
 

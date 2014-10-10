@@ -64,6 +64,7 @@ Route::post('login', function () {
 
     if (Auth::attempt($user)) {
         //return View::make('account');
+        Session::put("userid",Auth::id());
         return Redirect::route('account');
            // ->with('flash_notice', 'You are successfully logged in.');
     }

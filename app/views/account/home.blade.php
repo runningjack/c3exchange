@@ -25,7 +25,7 @@ font-size: 24px;
 margin: 10px 0;">{{Auth::user()->fname}} <span class="semi-bold">{{Auth::user()->lname}}</span>
                 <br>
                 <small>Reg Date: {{Auth::user()->created_at}}</small></h1>
-               
+
             <ul class="list-unstyled" style="list-style: none;padding-left: 0; margin: 0">
                 <li>
                     <p class="text-muted">

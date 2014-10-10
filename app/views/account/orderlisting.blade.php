@@ -9,7 +9,7 @@
 @section("content")
 <div class="portlet box green">
     <div class="portlet-title">
-        <h4><i class="icon-list"></i>Pending    Orders</h4>
+        <h4><i class="fa fa-icon-list"></i>Orders</h4>
 
     </div>
     <div class="row">
@@ -30,38 +30,47 @@
                     </tr>
                     </thead>
                     <tbody>
+                            <?php
+                            $x=1;
+                            if(count($orders) > 0){
 
+                    foreach($orders as $order){
 
-                    <tr class="odd">
-                        <td><a name="97" id="97"></a>#<a href="#" title="Edit this order">1210335831</a></td>
-                        <td title="06-28 13:54">2 years ago</td>
-                        <td><img src="../img/15_combo.gif"><span class="money_1">$10.00</span></td>
-                        <td>U8755005</td>
-                        <td></td>
+                        if($x%2 == 0){
+                            echo "<tr cass='even' >";
+                        }else{
+                            echo "<tr cass='odd' >";
+                        }
+                        echo'
+                        <td><a name="97" id="97"></a>#<a href="#" title="Edit this order">'.$order->order_id.'</a></td>
+                        <td title="06-28 13:54">'. $order->created_at.'</td>
+                        <td><img src="../img/15_combo.gif"><span class="money_1">'. $order->order_amount.'</span></td>
+                        <td>';
+                            if($order->order_type == "Sell"){
+                                echo $order->ecurrency;
+                            }elseif($order->order_type =="Buy"){
+                                echo $order->order_transfer_type;
+                            }
+                        echo '</td>
+                        <td>'. $order->order_type.'</td>
                         <td style="text-align:center">
                             <div data-original-title="Status changed to Pending"   id="dashboard-report-range" style="display: block;">
-                                <a href="#"><img src="../img/r_more.gif"></a></div></td>
+                                <a href="#"><img src="../img/r_more.gif"></a>
+                            </div>
+                        </td>
                         <td><a href="#" title="">
-                                <img src="../img/3_combo.gif" border="0"> 9.82</a></td>
-                        <td>
-                            <span class="label label-warning" style="font-weight:bold; line-height:18px">Pending</span>
-                        </td></tr>
-
-                    <tr class="even">
-                        <td><a name="116" id="116"></a>#<a href="#" title="Edit this order">1045747891</a></td>
-
-                        <td title="06-28 13:54">2 years ago</td>
-                        <td><img src="../img/5_combo.gif"><span class="money_1">$1.00</span></td>
-                        <td>U8755005</td>
-                        <td></td>
-                        <td style="text-align:center">
-                            <div data-original-title="Status changed to Pending"   style="display: block;">
-                                <a href="#"><img src="../img/r_more.gif"></a></div></td>
-                        <td><a href="#" ><img src="../img/15_combo.gif" border="0"> <span class="money_1">$0.98</span></a></td>
+                                <img src="../img/3_combo.gif" border="0">'.$order->final_amount.'</a>
+                        </td>
                         <td>
                             <span class="label label-warning" style="font-weight:bold; line-height:18px">Pending</span>
                         </td>
-                    </tr>
+                    </tr>';
+                    $x++;
+                    }
+                            }else{
+                                echo "<tr> <td colspan='8'> No order to display</td></tr>";
+                            }
+?>
                     </tbody>
                     </table>
                 </form>
