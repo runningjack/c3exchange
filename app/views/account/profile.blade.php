@@ -35,7 +35,7 @@ margin: 10px 0;">{{strtoupper(Auth::user()->fname)}} <span class="semi-bold">{{ 
                     </li>
                     <li>
                         <p class="text-muted">
-                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;<a href="mailto:simmons@smartadmin">{{Auth::user()->email}}</a>
+                            <i class="fa fa-envelope"></i>&nbsp;&nbsp;{{Auth::user()->email}}
                         </p>
                     </li>
                     <li>
@@ -49,15 +49,7 @@ margin: 10px 0;">{{strtoupper(Auth::user()->fname)}} <span class="semi-bold">{{ 
                     </li>
 
                 </ul>
-                <br>
 
-                <p>
-
-
-                </p>
-                <br>
-                <a href="javascript:void(0);" class="btn btn-default btn-xs"><i class="fa fa-envelope-o"></i> Send Message</a>
-                <br>
                 <br>
 
             </div>

@@ -62,7 +62,13 @@
                                 <img src="../img/3_combo.gif" border="0">'.$order->final_amount.'</a>
                         </td>
                         <td>
-                            <span class="label label-warning" style="font-weight:bold; line-height:18px">Pending</span>
+                            <span class="label label-warning" style="font-weight:bold; line-height:18px">';
+                            if($order->order_status == 0)
+                                        { echo "Pending"; }
+                                        elseif($order->order_status == 1)
+                                        { echo "Delivered"; }
+
+                            echo '</span>
                         </td>
                     </tr>';
                     $x++;
