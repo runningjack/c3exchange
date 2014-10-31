@@ -13,7 +13,7 @@
 <div id="contact" class="row padded-row">
     <div class="large-10 columns">
         <div class="large-6 columns">
-            <h2 >Contact Us</h2>
+            <div class=" pghead"><h2 class=" color_gold">Contact Us</h2></div>
             {{ Form::open(array('url'=>'doContact', 'method'=>'post','action'=>'pages@sendContact')) }}
                 <div class="row">
 

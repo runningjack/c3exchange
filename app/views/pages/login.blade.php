@@ -11,7 +11,7 @@
 @section('content')
 <div class="large-10 columns">
     <form action="login" method="post" name="order_form" id="order_form">
-<h1>Login</h1>
+        <div class="pghead"><h2 class=" color_gold">Login</h2></div>
 
 <!-- if there are login errors, show them here -->
 <div class="row">

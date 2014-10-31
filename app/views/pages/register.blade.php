@@ -8,7 +8,25 @@
 ?>
 
 @extends("layouts.sidebar")
+@section("reserve")
+<div class="featured-box featured-box-quaternary" style="height: auto;">
+    <div class="box-content" style="padding:15px 0 0 6px;">
+
+        <h4>Our E-currencies Reserve</h4>
+        <ul class="no-bullet" style="padding:20px 15px">
+            @foreach($reserves as $reserve)
+            {{"<li style='text-align: left'>
+                <div class='post-info'><a href='#'><img src='img/$reserve->img_url' alt='$reserve->ecurrency'></a>
+                    <div class='post-meta' style='float:right'> $ $reserve->reserve_amount</div>
+                </div>
+            </li>"}}
+            @endforeach
+        </ul>
+    </div>
+</div>
+@stop
 @section("content")
+<div class="pghead"><h2 class=" color_gold">Register</h2></div>
 <div class="large-10 columns">
 
         <h2 >Register</h2>

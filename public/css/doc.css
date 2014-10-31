@@ -47,6 +47,8 @@ font-size: 21px;
 font-weight: 200;
 line-height: 30px;
 }
+
+
 strong {
 font-weight: bold;
 }
@@ -328,6 +330,16 @@ table {
 }
 .even {
     background-color: #F9F9F9 !important;
+}
+
+.color_gold{
+    color:#D4AF03 !important;
+}
+
+.pghead h2{
+margin-bottom: 20px;
+margin-left: 0 !important;
+    padding-left:0 !important;
 }
 
 

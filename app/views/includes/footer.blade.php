@@ -70,15 +70,15 @@
                     </a>
                 </div>
                 <div class="large-5 columns">
-                    <p> © 2014 All Rights reserved by <a href="#">C3G EXCHANGE.</a></p>
+                    <p> © 2014 All Rights reserved by {{HTML::linkRoute('home','C3G EXCHANGE.')}}</p>
                 </div>
                 <div class="large-5 columns">
                     <dl class="sub-nav" role="menu" title="Filter Menu List">
 
 
                         <dd role="menuitem"><a href="#">Partners</a></dd>
-                        <dd role="menuitem"><a href="#">Privacy Policy</a></dd>
-                        <dd role="menuitem"><a href="#">Terms &amp; Conditions</a></dd>
+                        <dd role="menuitem">{{HTML::decode(HTML::linkRoute('privacy', 'Privacy Policy')) }}</dd>
+                        <dd role="menuitem">{{HTML::decode(HTML::linkRoute('legal', 'Terms &amp; Conditions')) }}</dd>
                     </dl>
                 </div>
             </div>

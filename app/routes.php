@@ -11,13 +11,9 @@
 |
 */
 
-Route::get('/', function()
-{
-    return View::make('pages.home');
-});
-Route::get("/about", function(){
-    return View::make('pages.about');
-});
+Route::get('/',array('as'=>'home','uses'=>'HomeController@getHome'));
+Route::get("/about",array('as'=>'about','uses'=>'HomeController@showAbout'));
+Route::get("/faq",array('as'=>'faq','uses'=>'HomeController@showFaq'));
 Route::get("/contact", function(){
     return View::make('pages.contact');
 });
@@ -31,6 +27,9 @@ Route::get('/success',array('as'=>'success',"uses"=>"HomeController@showSuccess"
     return View::make('pages.success');
 });
 
+//Route::get("/legal",array("as"=>"legal","uses"=>"HomeController@"));
+Route::get("/legal", array("as"=>"legal","uses"=>"HomeController@showLegal"));
+Route::get("/privacy", array("as"=>"privacy","uses"=>"HomeController@showPrivacy"));
 // route to show the login form
 Route::get('/login', array('as'=>'login','uses' => 'HomeController@showLogin'));
 

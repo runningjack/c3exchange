@@ -21,6 +21,15 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+    public function getHome(){
+
+        return View::make("pages.home")
+            ->with("title", "Home page")
+            ->with("reserves",Emoney::all())
+            ->with("rates",Rate::all());
+
+    }
+
 
     public function showHome(){
 
@@ -30,8 +39,35 @@ class HomeController extends BaseController {
             ->with("orders",DB::table("orders")->where('cus_id', '=', Auth::user()->id));
     }
 
+    public function showAbout(){
+
+        return View::make("pages.about")
+            ->with("reserves",Emoney::all())
+            ->with("title", "About C3G Exchange");
+
+    }
+
+    public function showFaq(){
+        return View::make("pages.faq")
+            ->with("title","FAQ")
+            ->with("reserves",Emoney::all());
+    }
+
+    public function showLegal(){
+        return View::make("pages.legal")
+            ->with("reserves",Emoney::all())
+            ->with("title","Terms and Condition");
+    }
+
+    public function showPrivacy(){
+        return View::make("pages.privacy")
+            ->with("reserves",Emoney::all())
+            ->with("title","Privacy");
+    }
+
     public function showLogin(){
-        return View::make('pages.login');
+        return View::make('pages.login')
+            ->with("title","Login");
     }
 
     public function doLogin(){
@@ -81,6 +117,7 @@ class HomeController extends BaseController {
 
     public function showRegister(){
         return View::make('pages.register')
+        ->with("title","Register")
             ->with("country",DB::table("country")->get());
     }
     public function showSuccess(){
@@ -90,16 +127,20 @@ class HomeController extends BaseController {
 
     public function showBuy(){
         return View::make('pages.buy')
+            ->with("reserves",Emoney::all())
             ->with("currencies",DB::table("emoneys")->get())
             ->with("country",DB::table("country")->get())
-            ->with("etypes",DB::table("paytypes")->get());
+            ->with("etypes",DB::table("paytypes")->get())
+            ->with("title","Buy E-currency");
     }
 
     public function showSell(){
         return View::make('pages.sell')
+            ->with("reserves",Emoney::all())
             ->with("currencies",DB::table("emoneys")->get())
             ->with("country",DB::table("country")->get())
-            ->with("etypes",DB::table("paytypes")->get());
+            ->with("etypes",DB::table("paytypes")->get())
+            ->with("title","Sell E-currency");
     }
 
     public function DestTxt($name){
@@ -184,15 +225,49 @@ class HomeController extends BaseController {
     }
 
     public function getsummary(){
-        return View::make('pages.summary');
+        return View::make('pages.summary')->with("title","Order Summary");
     }
 
     public function postsummary(){
         $validation = Order::validate(Input::all());
+        $msg = "";
         if($validation->fails()){
             return Redirect::Route("new_order")->withErrors($validation)->withInput();
         }else{
             try{
+
+                $msg ="Transaction #167863 - payment of 9999.5 Naira accepted. 57.14 USD Liberty Reserve will be payed out in a few hours.
+                You can check Transaction State anytime here: https://www.epaynigeria.net/exchange/handle.asp?t_ID={CC9EBF07-63BE-4682-B3F8-0B6D2F62F318}
+
+                Your application #167863 for cash transferring from Naira to USD Liberty Reserve in ePayNigeria was accepted for execution.
+                If you have closed the browser accidentally, go to:
+                https://www.epaynigeria.net/exchange/handle.asp?t_ID={CC9EBF07-63BE-4682-B3F8-0B6D2F62F318} to continue the operation execution
+
+
+                Application #163929 was paid in ammount 168.57 USD Liberty Reserve. Thank you for your confidence and using our services.
+                We will be grateful to receive any comments on EpayNigeria's exchange service work.
+                Your thoughts on how to improve our service will be taken into account.
+                Please leave a comment on our blog http://epaynigeria.com/index.php/blog.html
+
+
+                Transaction #163929 - payment of 29500 Naira accepted. 168.57 USD Liberty Reserve will be payed out in a few hours.
+                You can check Transaction State anytime here: https://www.epaynigeria.net/exchange/handle.asp?t_ID={099F3A5D-141C-4471-B0DF-1EB0534FBC74}
+
+
+
+                Hello Seraphin Ahmed,
+
+                Thank you for registering at Epaynigeria. Your account is created and must be activated before you can use it.
+                To activate the account click on the following link or copy-paste it in your browser:
+                http://epaynigeria.com/index.php?option=com_user&task=activate&activation=41f6a0632373fb8af07de0c3611f865b
+
+                After activation you may login to http://epaynigeria.com/ using the following username and password:
+
+                Username: amedora33
+                Password: seraphin33
+
+
+                ";
                 $order = new Order();
                 $order->order_id                        =   Order::order_reference("");
                 $order->order_type                      =   Input::get("order_type");
@@ -215,6 +290,8 @@ class HomeController extends BaseController {
                     $order->bank_zip                        =   Input::get("bank_zip");
                     $order->bank_routing                    =   Input::get("termediary_swift");
                     $order->comment                         =   Input::get("comment");
+
+
                 }
 
                 $order->cus_fullname                    =   Input::get("cus_fullname");
@@ -230,7 +307,9 @@ class HomeController extends BaseController {
                 $order->created_at                      =   date("Y-m-d H:i:s");
                 $order->updated_at                      =   date("Y-m-d H:i:s");
                 Session::put("orderobj",serialize($order));
-                return View::make("pages.summary")->with("order",$order);
+
+                return View::make("pages.summary")->with("order",$order)
+                    ->with("title","Summary");
             }
             catch (Exception $e ){
                 echo var_dump($e->getMessage());
@@ -244,6 +323,19 @@ class HomeController extends BaseController {
             $order = new Order();
             $order = unserialize(Session::get("orderobj"));
             $order->save();
+            $msg = "";
+        if($order->order_type == "Sell"){
+            $msg .= " Your order #".$order->order_id . " to  sell e-currencyLiberty on c3gexchange platform was accepted for execution.
+                If you have closed the browser accidentally, go to:
+                http://www.c3exchange/summary/".$order->order_id." to continue the operation execution";
+        }elseif($order->order_type == "Buy"){
+            $msg .= " Your order #".$order->order_id . " to  buy e-currencyLiberty on c3gexchange platform was accepted for execution.
+                If you have closed the browser accidentally, go to:
+                http://www.c3exchange/summary/".$order->order_id." to continue the operation execution";
+        }
+
+            sendMail2("Customer","Order Accepted",$msg,$order->cus_email);
+
             return Redirect::Route("success")->with("message","Thnak you for choosing us you order is being processed");
         }else{
             try{
@@ -294,18 +386,18 @@ function sendMail2($name,$subject,$msg,$copy){
     $mail                                     = new Mail();
     $template                                 = new Mailtemplate();
     $template->data['mail_from']              = "Global Currency Exchange";
-    $template->data['web_url']                = "http://www.cg3exchange.com";
+    $template->data['web_url']                = "http://www.c3gexchange.com";
     $template->data['logo']                   = "logo.png";
-    $template->data['company_name']           = "CG3 Exchange.";
-    $template->data['text_from']              = "CG3 Exchange.";
+    $template->data['company_name']           = "C3 Global Exchange.";
+    $template->data['text_from']              = "C3 Global Exchange.";
     $template->data['text_greeting']          ="Dear ".$name;
     $template->data['text_footer']            ="Thank you";
-    $template->data['text_message']           = "<b>Welcome to CG3 Exchange!</b>";
+    $template->data['text_message']           = "<b>Welcome to C3 Global Exchange!</b>";
     $template->data['message']                = $msg;
 
     $mail->setTo($copy);
-    $mail->setFrom("noreply@cg3exchange.com");
-    $mail->setSender("CG3 Exchange");
+    $mail->setFrom("noreply@c3gexchange.com");
+    $mail->setSender("C3 Global Exchange");
     $mail->setSubject($subject);
     $mail->setHtml($template->gettmp('http://www.mylcpschoolbook.net/librarySystem/library/email1.tpl'));
     if($mail->send()){

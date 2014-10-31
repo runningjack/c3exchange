@@ -15,6 +15,8 @@
 @include('includes.header')
 <div class="row">
     <div class="large-3 columns">
+        @yield("reserve")
+
         @include("includes.sidebar")
     </div>
 

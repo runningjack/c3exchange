@@ -10,7 +10,7 @@
 <header>
     <div class="row">
         <div class="large-6 columns">
-            <h1>C3G Exchange</h1>
+            <div style="padding: 10px 0;"><a href=""><img src="img/logo.png"></a></div>
         </div>
 
     </div>
