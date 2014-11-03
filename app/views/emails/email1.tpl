@@ -11,8 +11,6 @@
 <body>
 
 <div class="row" style="background-color:#f2f2f2; padding:5px">
-
-
     <div class="" style="max-width:600px; margin:40px auto; background-color:#fff; padding:20px">
         <div style="text-align:center">
 

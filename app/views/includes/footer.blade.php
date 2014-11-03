@@ -112,6 +112,7 @@
                 type:"post",
                 data:{input:$curr[0]},
                 success: function(result){
+                    //alert(result)
                     $.each( result, function( key, value ) {
                         myDataArray[key]  = value ;
                     });
@@ -135,10 +136,76 @@
             })
         })
 
+
+        $(".excur").on("change",function(){
+
+            var $method = $("#excurrency").val()
+            var $curr   = $method.split(" ")
+            var excurr  = $("#exchange_transfer").val()
+
+            globals.curren = $curr[1];
+            var urlparam =$curr[0]+"©"+$curr[1]+"©"+$curr[2] //this needed backend ajax
+            var urlparam2 = excurr[0]+"©"+excurr[1]+"©"+excurr[2]
+            var orderamount = $("#order_amount").val();
+            var request = $.ajax({
+                url:"exchange",
+                type:"post",
+                data:{input1:urlparam,input2:urlparam2},
+                dataType:"json"
+            })
+
+
+            request.done(function(data){
+                alert(JSON.stringify(data))
+                var splexchange = data["exchange"].split(":")
+                var currpair    = data["currency_pair"].split("_") //splexchange[2]
+                    /*$.each( JSON.stringify(data), function( key, value ) {
+                        myDataArray[key]  = value ;
+
+                     success: function(JSONObject) {
+                     var peopleHTML = "";
+
+                     // Loop through Object and create peopleHTML
+                     for (var key in JSONObject) {
+                     if (JSONObject.hasOwnProperty(key)) {
+                     peopleHTML += "<tr>";
+                     peopleHTML += "<td>" + JSONObject[key]["name"] + "</td>";
+                     peopleHTML += "<td>" + JSONObject[key]["gender"] + "</td>";
+                     peopleHTML += "</tr>";
+                     }
+                     }
+                    });*/
+
+                $("#destTxt").html("<strong> <i>("+$curr[1]+")</i></strong>")
+                $("#excdetail").html("<div class='large-6 columns right'>" +
+                    "<h5>Exchange Rate</h5> " +
+                    "<div><strong><i>"+splexchange[0]+" "+currpair[0]+" = "+splexchange[1]+" "+currpair[1]+
+                    "</i></strong></div></div>")
+                globals.amt = splexchange[1]
+                treatNumeric(orderamount,globals.amt)
+
+
+                        globals.total = eval(javaCeil(parseFloat(globals.orderAmt)*parseFloat(globals.amt),2))
+                        $("#FINAL_AMOUNT").html(globals.total)
+                console.log(globals.total)
+                    $("#total_amount").val(globals.total)
+                    $("#final_amount").val(globals.total)
+                    $("#offer_amount").val(globals.amt)
+
+
+            })
+
+            request.fail(function(){
+                alert("Request: failed")
+            })
+        })
+
+
+
         $("#order_amount").on("keypress",function(evt){
             return isNumberKey(evt)
         })
-        $("#order_amount").on("blur",function(evt){
+        $("#order_amount").on("change",function(evt){
             treatNumeric($(this).val(),globals.amt)
             var otype = $("#order_type").val()
             if(otype == "Buy"){
@@ -148,11 +215,20 @@
             }else if(otype=="Sell"){
                 globals.total = eval(javaCeil(parseInt(globals.orderAmt)*parseInt(globals.amt),2))
                 $("#FINAL_AMOUNT").html("<span class='alert-box success' style='display:inline'><h4 style='display:inline; color:#fff !important'><strong>"+ globals.total +" "+ $("#method_id").val()+ " <i></i></strong></h4></span>")
+            }else if(otype="Exchange"){
+                globals.total = eval(javaCeil(parseFloat(globals.orderAmt)*parseFloat(globals.amt),2))
+                $("#FINAL_AMOUNT").html(parseFloat(globals.total))
             }
             $("#total_amount").val(globals.total)
             $("#final_amount").val(globals.total)
             $("#offer_amount").val(globals.amt)
         })
+
+
+
+
+
+
 
     })
     /*

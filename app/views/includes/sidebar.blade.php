@@ -7,7 +7,7 @@
  */
 
 ?>
-<div class="sideHeading firstTop">
+<!--<div class="sideHeading firstTop">
     <h4 >Quick Menu</h4>
     <div id="alertme"></div>
 </div>
@@ -20,7 +20,7 @@
     <li><a href="#">Link 4</a></li>
 
 </ul>
-</div>
+</div>-->
 @if(!Auth::check())
 <div class="sideHeading">
     <h4 >Member Area</h4>

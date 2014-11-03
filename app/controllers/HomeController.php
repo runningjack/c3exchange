@@ -30,6 +30,13 @@ class HomeController extends BaseController {
 
     }
 
+    public function exchangeData($splid){
+        if($splid){
+            echo "good";
+        }
+    }
+
+
 
     public function showHome(){
 
@@ -141,6 +148,25 @@ class HomeController extends BaseController {
             ->with("country",DB::table("country")->get())
             ->with("etypes",DB::table("paytypes")->get())
             ->with("title","Sell E-currency");
+    }
+
+    public function getExchange(){
+        return View::make('pages.exchange')
+            ->with("reserves",Emoney::all())
+            ->with("currencies",DB::table("emoneys")->get())
+            ->with("exchanges",Exchange::all())
+            ->with("title","Exchange E-currency");
+    }
+
+    public function postExchange(){
+        if(Input::has("input1")){
+            $frArray = explode("©",Input::get("input1"));
+            $frArray2 = explode("©",Input::get("input2"));
+            $exsplid = $frArray[0]."_".$frArray2[0];
+            $exchange = Exchange::where("split_id","=",$exsplid)->first();
+           // print_r($exchange);
+           echo json_encode($exchange);
+        }
     }
 
     public function DestTxt($name){
@@ -385,13 +411,13 @@ class HomeController extends BaseController {
 function sendMail2($name,$subject,$msg,$copy){
     $mail                                     = new Mail();
     $template                                 = new Mailtemplate();
-    $template->data['mail_from']              = "Global Currency Exchange";
+    $template->data['mail_from']              = "C3 Global Currency Exchange";
     $template->data['web_url']                = "http://www.c3gexchange.com";
     $template->data['logo']                   = "logo.png";
     $template->data['company_name']           = "C3 Global Exchange.";
     $template->data['text_from']              = "C3 Global Exchange.";
-    $template->data['text_greeting']          ="Dear ".$name;
-    $template->data['text_footer']            ="Thank you";
+    $template->data['text_greeting']          = "Dear ".$name;
+    $template->data['text_footer']            = "Thank you";
     $template->data['text_message']           = "<b>Welcome to C3 Global Exchange!</b>";
     $template->data['message']                = $msg;
 

@@ -280,7 +280,7 @@
 
 <label class="checkbox">
     <input type="checkbox" value="true" name="licence_agreement" id="licence_agreement" required="required">
-    I agree to the <a href="terms" target="_blank">
+    I agree to the <a href="legal" target="_blank">
         Terms and Conditions.</a>
 </label>
 <div class="row">

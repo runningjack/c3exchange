@@ -152,10 +152,7 @@
                         <div class="large-4 columns">Phone Number <strong>*</strong>:</div>
                         <div class="large-6 columns"><input  type="text" name="cus_phone" id="cus_phone" value="" required="required"></div>
                     </div>
-                    <!--
-                    <label id="cell_phone_number"><span>SMS/Cell phone Number :</span>
-                    <input  name="cell_phone_number" id="cell_phone_number" value="" /></label>
-                    -->
+
                     <div class="row"></div>
                     <input  name="ip_address" type="hidden" id="ip_address" value="41.220.69.150">
 
@@ -163,15 +160,8 @@
                     <div class="row">Your order will not be submitted until you click <b>Confirm Order</b> on the next page.</div>
 
                     <label class="checkbox">
-                        <input name="licence_agreement" id="licence_agreement" required="required" type="checkbox" class="checkbox" value="true" style="width:20px"> I agree to the <a href="http://demo.auto-exchanger.com/nview.php?title=Terms of services" target="_blank">Terms and Conditions.</a>
+                        <input name="licence_agreement" id="licence_agreement" required="required" type="checkbox" class="checkbox" value="true" style="width:20px"> I agree to the <a href="legal" target="_blank">Terms and Conditions.</a>
                     </label>
-<!--
-                    <div class="row">
-                        <div class="large-7 columns" style="padding-right:6px;"><input placeholder="Code"  type="text" name="turning_buysell" id="turning_buysell" autocomplete="off"></div>
-                        <div class="large-1 columns" style="padding:9px 0 0 0;"></div>
-                    </div>
--->
-
 
                     <div class="row">
                         <div class="large-5 columns"><button type="submit" class="button" value="Preview order">Preview order</button></div>

@@ -48,6 +48,10 @@ Route::get("/buy",array("as"=>"buy_currency","uses"=>'HomeController@showBuy'));
 
 Route::get("/sell",array("as"=>"sell_currency","uses"=>'HomeController@showSell'));
 Route::get("/sell",array("as"=>"new_order","uses"=>"HomeController@showSell"));
+Route::get("/exchange",array("as"=>"exchange","uses"=>'HomeController@getExchange'));
+Route::post("/exchange",array("as"=>"exchange","uses"=>'HomeController@postExchange'));
+//Route::post("/exchange",array("as"=>"exchange","uses"=>'HomeController@exchangeData'));
+Route::get("/sell",array("as"=>"new_order","uses"=>"HomeController@showSell"));
 Route::post("/home/{name?}",array("as"=>'descText','uses'=>'HomeController@DestTxt'));
 Route::post("/orderPost",array("as"=>"ord_create","uses"=>"HomeController@orderPost"));
 Route::post("/summary",array("as"=>"summary","uses"=>"HomeController@postsummary"));

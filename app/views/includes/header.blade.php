@@ -38,6 +38,7 @@
             <li class="active"><a href="about">About C3G Exchange</a> </li>
             <li><a href="buy">Buy</a> </li>
             <li><a href="sell">Sell</a> </li>
+            <li><a href="exchange">Exchange</a> </li>
             <li><a href="legal">Terms of Services</a> </li>
             <li>{{HTML::linkRoute("faq","FAQ")}} </li>
             <li><a href="contact">Contact Us</a> </li>
