@@ -24,7 +24,7 @@
         <tr>
 
             <td>you are exchanging <strong>{{$order->currency}}</strong> {{$order->ecurrency}} (USD) at the rate of
-                Exchange rate : 1 {{$order->ecurrency}} = {{$order->offer_amount}} NGN </td>
+                Exchange rate : 1 {{$order->ecurrency}} = {{$order->offer_amount}} {{$order->order_transfer_type}} </td>
             <td> {{$order->order_amount}} </td>
         </tr>
         <tr>
@@ -33,14 +33,14 @@
             <td scope="row">0.00</td>
         </tr>
         <tr>
-
             <td>You will Receive
             @if($order->order_type == "Sell")
                 {{$order->oder_transfer_type}}
             @elseif($order->order_type == "Buy")
                 {{$order->ecurrency}}
+            @elseif($order->order_type =="Exchange")
+                {{$order->order_transfer_type}}
             @endif
-
             </td>
             <td>{{$order->total_amount}}</td>
         </tr>

@@ -30,6 +30,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                             <?php
                             $x=1;
                             if(count($orders) > 0){
@@ -42,7 +43,7 @@
                             echo "<tr cass='odd' >";
                         }
                         echo'
-                        <td><a name="97" id="97"></a>#<a href="#" title="Edit this order">'.$order->order_id.'</a></td>
+                        <td><a name="97" id="97"></a>#<a href="#" title="view this order detail">'.$order->order_id.'</a></td>
                         <td title="06-28 13:54">'. $order->created_at.'</td>
                         <td><img src="../img/15_combo.gif"><span class="money_1">'. $order->order_amount.'</span></td>
                         <td>';
@@ -64,9 +65,21 @@
                         <td>
                             <span class="label label-warning" style="font-weight:bold; line-height:18px">';
                             if($order->order_status == 0)
-                                        { echo "Pending"; }
-                                        elseif($order->order_status == 1)
-                                        { echo "Delivered"; }
+                                { echo "Open"; }
+                            elseif($order->order_status == 1)
+                                { echo "Received"; }
+                            elseif($order->order_status == 2)
+                                { echo "Sent"; }
+                            elseif($order->order_status == 3)
+                                { echo "Close"; }
+                            elseif($order->order_status == 4)
+                                { echo "Cancelled"; }
+                            elseif($order->order_status == 5)
+                                { echo "Expired"; }
+                            elseif($order->order_status == 6)
+                                { echo "Declined"; }
+                            elseif($order->order_status == 7)
+                                { echo "Refunded"; }
 
                             echo '</span>
                         </td>

@@ -30,7 +30,27 @@
     <div class="pghead"><h2 class=" color_gold">{{$title}}</h2></div>
 
         <div id="status_box">
-            <div id="dynMsg"></div>
+            <div id="dynMsg">
+
+                @if(Session::has('message'))
+                <div class="alert-box alert">
+                    <h5 style="color:#fff !important">{{ Session::get('message') }}</h5>
+                </div>
+                @endif
+                @if($errors->has("order_amount"))
+                <div class='alert-box alert'> {{$errors->first("order_amount","<li>:message</li>")}}</div>
+                @endif
+                @if($errors->has("ecurrency"))
+                <div class='alert-box alert'> {{$errors->first("ecurrency","<li>:message</li>")}}</div>
+                @endif
+                @if($errors->has("cus_fullname"))
+                <div class='alert-box alert'> {{$errors->first("cus_fullname","<li>:message</li>")}}</div>
+                @endif
+                @if($errors->has("cus_email"))
+                <div class='alert-box alert'> {{$errors->first("cus_email","<li>:message</li>")}}</div>
+                @endif
+
+            </div>
 
             <form method="post" action="summary" name="order_form" id="order_form">
                 <fieldset>
@@ -57,7 +77,7 @@
                             <input class=" currency_select" type="text" name="FINAL_AMOUNT" id="FINAL_AMOUNT" readonly="true" disabled="disabled" >
                         </div>
                         <div class="large-4 columns">
-                            <select   name="ecurrency" id="ecurrency" required="required">
+                            <select   name="ecurrency" id="ecurrency" class="ecurrency" required="required">
                                 @foreach($currencies as $currency)
                                 <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
                                 @endforeach

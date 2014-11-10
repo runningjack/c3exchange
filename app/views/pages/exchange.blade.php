@@ -30,17 +30,25 @@
 
 <div class="row">
 <div class=" pghead"><h2 class=" color_gold">Exchange E- Currency</h2></div>
-<div id="status_box">
-<div id="dynMsg">
 
-    @if($errors->has())
-    <div class='alert-box alert'> {{$errors->first("order_amount","<li>:message</li>")}}</div>
+    @if(Session::has('message'))
+    <div class="alert-box alert">
+        <h5 style="color:#fff !important">{{ Session::get('message') }}</h5>
+    </div>
+    @endif
+    @if($errors->has("order_amount"))
+        <div class='alert-box alert'> {{$errors->first("order_amount","<li>:message</li>")}}</div>
+    @endif
+    @if($errors->has("ecurrency"))
     <div class='alert-box alert'> {{$errors->first("ecurrency","<li>:message</li>")}}</div>
+    @endif
+    @if($errors->has("cus_fullname"))
     <div class='alert-box alert'> {{$errors->first("cus_fullname","<li>:message</li>")}}</div>
     @endif
+    @if($errors->has("cus_email"))
+    <div class='alert-box alert'> {{$errors->first("cus_email","<li>:message</li>")}}</div>
+    @endif
 
-
-</div>
 <form action="summary" method="post" name="order_form" id="order_form">
 
 <div class="row">
@@ -49,7 +57,7 @@
         <input type="text"  name="order_amount" id="order_amount"  value="100" >
     </div>
     <div class="large-3 columns left">
-        <select   name="excurrency" id="excurrency" class="excur">
+        <select   name="ecurrency" id="ecurrency" class="ecurrency" required="required">
 
             @foreach($currencies as $currency)
             <option value="{{$currency->id}} {{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
@@ -63,11 +71,11 @@
         <label>You will get</label>
     </div>
     <div class="large-3 columns">
-        <div class="row text-center"> <b><span id="FINAL_AMOUNT" class="view-only">65.00 Bank wire(USD) </span></b><p></p>
+        <div class="row text-center"> <b><span id="FINAL_AMOUNT" class="view-only"> </span></b><p></p>
         </div>
     </div>
     <div class="large-3 columns left">
-        <select  name="exchange_transfer" id="exchange_transfer" class="excur">
+        <select  name="order_transfer_type" id="exchange_transfer" class="ecurrency">
             @foreach($currencies as $currency)
                 <option value="{{$currency->id}} {{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
             @endforeach
@@ -86,7 +94,24 @@
         <input  type="text" maxlength="50" name="ecurrency_account" id="ecurrency_account" value="" required="required">
     </div>
 </div>
+    <legend>Personal information:</legend>
+    <hr />
+    <div class="row">
+        <div class="large-4 columns">
+            Full Name<strong>*</strong>
+        </div><div class="large-6 columns left">
+            <input  type="text" name="cus_fullname" id="cus_fullname" value="">
+        </div>
+    </div>
 
+    <div class="row">
+        <div class="large-4 columns">
+            E-mail address<strong>*</strong>
+        </div>
+        <div class="large-6 columns left">
+            <input  type="text" name="cus_email" id="cus_email" value="">
+        </div>
+    </div>
 
 <!-- <b>Our fee <span id="OUR_FEE">20% (Our max fee: 10.00 USD)</span></b> + <b><span id="METHOD_FEE">25 USD Bank wire</span> fee</b></div><div class="row text-center"><i>Exchange Rates <span id="WORTH_RATE">1.00 USD = 1.00 USD</span></i></div>-->
 
@@ -123,5 +148,5 @@
 </form>
 
 </div>
-</div>
+
 @stop

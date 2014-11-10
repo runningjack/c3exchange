@@ -29,17 +29,25 @@
 
 <div class="row">
 <div class=" pghead"><h2 class=" color_gold">Sell E- Currency</h2></div>
-<div id="status_box">
-<div id="dynMsg">
 
-    @if($errors->has())
-        <div class='alert-box alert'> {{$errors->first("order_amount","<li>:message</li>")}}</div>
-        <div class='alert-box alert'> {{$errors->first("ecurrency","<li>:message</li>")}}</div>
-        <div class='alert-box alert'> {{$errors->first("cus_fullname","<li>:message</li>")}}</div>
+    @if(Session::has('message'))
+    <div class="alert-box alert">
+        <h5 style="color:#fff !important">{{ Session::get('message') }}</h5>
+    </div>
+    @endif
+    @if($errors->has("order_amount"))
+    <div class='alert-box alert'> {{$errors->first("order_amount","<li>:message</li>")}}</div>
+    @endif
+    @if($errors->has("ecurrency"))
+    <div class='alert-box alert'> {{$errors->first("ecurrency","<li>:message</li>")}}</div>
+    @endif
+    @if($errors->has("cus_fullname"))
+    <div class='alert-box alert'> {{$errors->first("cus_fullname","<li>:message</li>")}}</div>
+    @endif
+    @if($errors->has("cus_email"))
+    <div class='alert-box alert'> {{$errors->first("cus_email","<li>:message</li>")}}</div>
     @endif
 
-
-</div>
 <form action="summary" method="post" name="order_form" id="order_form">
 
 <div class="row">
@@ -48,7 +56,7 @@
         <input type="text"  name="order_amount" id="order_amount"  value="100" >
     </div>
     <div class="large-3 columns left">
-        <select   name="ecurrency" id="ecurrency">
+        <select   name="ecurrency" id="ecurrency" class="ecurrency">
             <option value="">--SELECT E-CURRENCY--</option>
             @foreach($currencies as $currency)
             <option value="{{$currency->ecurrency}} {{ $currency->currency}}">{{$currency->ecurrency}} {{ $currency->currency}}</option>
@@ -298,5 +306,5 @@
 </form>
 
 </div>
-</div>
+
 @stop

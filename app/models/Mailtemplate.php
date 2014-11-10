@@ -9,7 +9,7 @@ class Mailtemplate{
     public $data = array();
 
     public function gettmp(){
-        $file = "email/email1.tpl";
+        $file = "views/emails/email1.tpl";
 
         if (file_exists($file)) {
             extract($this->data);

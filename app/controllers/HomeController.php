@@ -244,7 +244,7 @@ class HomeController extends BaseController {
 <p>If you have any questions, please contact us at support@cg3exchange.com</p>
                 ";
 
-           // sendMail2($user->fullname(),$subject,$msg,$user->email);
+           sendMail2($user->fullname(),$subject,$msg,$user->email);
             return Redirect::route("success")->with("message","Registration Successful! <br /> ");
 
         }
@@ -256,9 +256,59 @@ class HomeController extends BaseController {
 
     public function postsummary(){
         $validation = Order::validate(Input::all());
+        $erderEC = explode(" ",Input::get("ecurrency"));
+        $erderTT = explode(" ",Input::get("order_transfer_type"));
+        $ecurrency =New Emoney();
         $msg = "";
-        if($validation->fails()){
-            return Redirect::Route("new_order")->withErrors($validation)->withInput();
+
+        //print_r($erderTT);
+        if(Input::get("order_type") !="Exchange"){
+            $ecurrency  = Emoney::where("ecurrency","=",$erderEC[0]);
+        }elseif(Input::get("order_type") =="Exchange"){
+            $ecurrency  = Emoney::find($erderTT[0]);
+        }
+        echo($ecurrency->exchange_min);
+       if(Input::get("order_amount")<=$ecurrency->exchange_min){
+            if(Input::get("order_type") =="Sell"){
+                Session::flash("message","Sorry your order is less than our minimum order level");
+                return Redirect::Route("new_order")->with("message","Sorry your order is less than our minimum order level ");
+                exit;
+            }elseif(Input::get("order_type")=="Buy"){
+                Session::flash("message","Sorry your order is less than our minimum order level");
+                return Redirect::Route("new_order")->with("message","Sorry your order is less than our minimum order level ");
+                exit;
+            }elseif(Input::get("order_type")=="Exchange"){
+                Session::flash("message","Sorry your order is less than our minimum order level");
+                return Redirect::Route("exchange")->with("message","Sorry your order is less than our minimum order level ");
+                exit;
+            }
+        }
+
+        if(Input::get("order_amount")>=$ecurrency->exchange_max){
+            if(Input::get("order_type") =="Sell"){
+                Session::flash("message","Sorry your order has exceeded our currency reserve");
+                return Redirect::Route("new_order")->with("message","Sorry your order has exceeded our currency reserve ");
+                exit;
+            }elseif(Input::get("order_type")=="Buy"){
+                Session::flash("message","Sorry your order has exceeded our currency reserve");
+                return Redirect::Route("new_order")->with("message","Sorry your order has exceeded our currency reserve ");
+                exit;
+            }elseif(Input::get("order_type")=="Exchange"){
+                Session::flash("message","Sorry your order has exceeded our currency reserve");
+                return Redirect::Route("exchange")->with("message","Sorry your order has exceeded our currency reserve ");
+                exit;
+            }
+        }
+
+        if($validation->fails() ){
+            if(Input::get("order_type") =="Sell"){
+                return Redirect::Route("new_order")->withErrors($validation)->withInput();
+            }elseif(Input::get("order_type")=="Buy"){
+                return Redirect::Route("new_order")->withErrors($validation)->withInput();
+            }elseif(Input::get("order_type")=="Exchange"){
+                return Redirect::Route("exchange")->withErrors($validation)->withInput();
+            }
+
         }else{
             try{
 
@@ -319,6 +369,12 @@ class HomeController extends BaseController {
 
 
                 }
+                if($order->order_type == "Exchange"){
+                    // for echange the form input was loaded with other value so it need to be seperated
+
+                    $order->order_transfer_type =$erderTT[1]." ". $erderTT[2];
+                    $order->ecurrency = $erderEC[1]." ".$erderEC[2];
+                }
 
                 $order->cus_fullname                    =   Input::get("cus_fullname");
                 $order->cus_email                       =   Input::get("cus_email");
@@ -346,8 +402,15 @@ class HomeController extends BaseController {
 
     public function orderPost(){
         if(Session::has("orderobj")){
+
             $order = new Order();
             $order = unserialize(Session::get("orderobj"));
+            if (Auth::check())
+            {
+                // The user is logged in...
+                $order->cus_id = Auth::id();
+
+            }
             $order->save();
             $msg = "";
         if($order->order_type == "Sell"){
@@ -360,7 +423,7 @@ class HomeController extends BaseController {
                 http://www.c3exchange/summary/".$order->order_id." to continue the operation execution";
         }
 
-            sendMail2("Customer","Order Accepted",$msg,$order->cus_email);
+           //sendMail2("Customer","Order Accepted",$msg,$order->cus_email);
 
             return Redirect::Route("success")->with("message","Thnak you for choosing us you order is being processed");
         }else{
@@ -409,7 +472,7 @@ class HomeController extends BaseController {
 
 
 function sendMail2($name,$subject,$msg,$copy){
-    $mail                                     = new Mail();
+    $mail                                     = new Mailsender();
     $template                                 = new Mailtemplate();
     $template->data['mail_from']              = "C3 Global Currency Exchange";
     $template->data['web_url']                = "http://www.c3gexchange.com";
