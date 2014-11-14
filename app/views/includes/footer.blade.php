@@ -74,8 +74,6 @@
                 </div>
                 <div class="large-5 columns">
                     <dl class="sub-nav" role="menu" title="Filter Menu List">
-
-
                         <dd role="menuitem"><a href="#">Partners</a></dd>
                         <dd role="menuitem">{{HTML::decode(HTML::linkRoute('privacy', 'Privacy Policy')) }}</dd>
                         <dd role="menuitem">{{HTML::decode(HTML::linkRoute('legal', 'Terms &amp; Conditions')) }}</dd>
@@ -91,13 +89,12 @@
 
 <script src="js/vendor/jquery.js"></script>
 <script src="js/foundation.min.js"></script>
+<script src="js/foundation/foundation.topbar.js"></script>
 <script>
     var globals = { 'payment_target':'catchable','amt':1,'transcost':0,'total':0,'orderAmt':1,'curren':"" };
     var myDataArray  = new Object;
     $(document).foundation();
     $(document).ready(function(){
-
-
         var baseUrl = "http://localhost/c3exchange/public/"
         $(".ecurrency").on("change",function(){
             var otype   = $("#order_type").val()
@@ -152,7 +149,7 @@
                 })
 
                 request.done(function(data){
-                    alert(JSON.stringify(data))
+                    //alert(JSON.stringify(data))
                     var splexchange = data["exchange"].split(":")
                     var currpair    = data["currency_pair"].split("_") //splexchange[2]
                     /*$.each( JSON.stringify(data), function( key, value ) {
@@ -223,10 +220,6 @@
         $("#final_amount").val(globals.total)
         $("#offer_amount").val(globals.amt)
     })
-
-
-
-
     })
     /*
     * treatNumeric is a function to make sure

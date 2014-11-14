@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>PHP</ID>
+  <OriginalElement>\HomeController</OriginalElement>
+  <nodes>
+    <node x="41.62028447742739" y="19.003401360544224">\BaseController</node>
+    <node x="-241.66666666666663" y="102.16666666666666">\HomeController</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="\HomeController" target="\BaseController">
+      <point x="0.0" y="-304.0" />
+      <point x="0.0" y="24.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="0.7414030261348006" x="106.32745825602967" y="357.5" />
+  <SelectedNodes>
+    <node>\BaseController</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Constructors</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

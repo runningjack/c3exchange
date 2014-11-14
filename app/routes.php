@@ -81,7 +81,9 @@ Route::post('login', function () {
 Route::get("account/home",array("as"=>"account",'before' => 'auth',"uses"=>"AccountController@showHome"));
 Route::get("account/profile",array("as"=>"profile",'before' => 'auth',"uses"=>"AccountController@showProfile"));
 Route::get("account/orders",array("as"=>"orderlisting",'before' => 'auth',"uses"=>"AccountController@showOrders"));
-Route::get("account/changepass",array("as"=>"changepass",'before' => 'auth',"uses"=>"AccountController@showChangepass"));
+Route::get("account/detail{orderid?}",array("as"=>"orderdetail",'before' => 'auth',"uses"=>"AccountController@showOrderDetail"));
+Route::get("account/changepass",array("as"=>"changepass",'before' => 'auth',"uses"=>"AccountController@getChangePass"));
+Route::post("account/changepass",array("as"=>"changepass",'before' => 'auth',"uses"=>"AccountController@postChangePass"));
 //Route::get('logout', array('as' => 'logout', function () { }))->before('auth');
 
 

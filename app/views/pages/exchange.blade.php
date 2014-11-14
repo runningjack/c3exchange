@@ -25,6 +25,29 @@
         </ul>
     </div>
 </div>
+
+<div class="featured-box featured-box-quaternary" style="height: auto;">
+    <div class="box-content" style="padding:15px 0 0 6px;">
+
+        <h4>Exchange Rates</h4>
+       <div class="row">
+           <div class="large-6 columns"><h4>From</h4></div>
+           <div class="large-6 columns"><h4>To</h4></div>
+       </div>
+            <?php
+                foreach($exchanges as $exchange){
+                $cpair = explode("_", $exchange->currency_pair);
+                $evalue = explode(":",$exchange->exchange);
+            echo "<div class='row'>
+                <div class='large-6 columns' style='text-align: left'>$evalue[0] $cpair[0]</div>
+                <div class='large-6 columns' style='text-align: left'>$evalue[1] $cpair[1]</div>
+            </div>";
+
+}
+?>
+
+    </div>
+</div>
 @stop
 @section("content")
 

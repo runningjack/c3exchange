@@ -155,6 +155,7 @@ class HomeController extends BaseController {
             ->with("reserves",Emoney::all())
             ->with("currencies",DB::table("emoneys")->get())
             ->with("exchanges",Exchange::all())
+            //->with("exchanges",DB::table("exchanges" ))
             ->with("title","Exchange E-currency");
     }
 
@@ -220,7 +221,7 @@ class HomeController extends BaseController {
             $user->phone                = Input::get("phone");
             $user->city                 = Input::get("city");
             $user->country              = Input::get("country");
-            //$user->ipaddress = Input::get();
+            $user->ipaddress = $_SERVER["REMOTE_ADDR"];
 
             $user->email                =   Input::get("email");
             $user->password             = Hash::make(Input::get("password"));
@@ -340,20 +341,18 @@ class HomeController extends BaseController {
                 After activation you may login to http://epaynigeria.com/ using the following username and password:
 
                 Username: amedora33
-                Password: seraphin33
-
-
-                ";
+                Password: seraphin33 ";
                 $order = new Order();
                 $order->order_id                        =   Order::order_reference("");
                 $order->order_type                      =   Input::get("order_type");
-                $order->order_transfer_type              =   Input::get("order_transfer_type");
+                $order->order_transfer_type             =   Input::get("order_transfer_type");
                 $order->order_amount                    =   Input::get("order_amount");
                 $order->final_amount                    =   Input::get("final_amount");
                 //$order->fee_amount                    =   Input::get("dob");
                 $order->total_amount                    =   Input::get("total_amount");
                 $order->offer_amount                    =   Input::get("offer_amount");
                 $order->ecurrency                       =   Input::get("ecurrency");
+
                 //$order->curreny                       =   Input::get("soo");
                 if($order->order_type == "Sell" ){
                     $order->bank_account_no                 =   Input::get("bank_account_no");
@@ -366,8 +365,6 @@ class HomeController extends BaseController {
                     $order->bank_zip                        =   Input::get("bank_zip");
                     $order->bank_routing                    =   Input::get("termediary_swift");
                     $order->comment                         =   Input::get("comment");
-
-
                 }
                 if($order->order_type == "Exchange"){
                     // for echange the form input was loaded with other value so it need to be seperated
@@ -405,6 +402,7 @@ class HomeController extends BaseController {
 
             $order = new Order();
             $order = unserialize(Session::get("orderobj"));
+            $order->ip                              =   $_SERVER["REMOTE_ADDR"];
             if (Auth::check())
             {
                 // The user is logged in...
@@ -430,6 +428,7 @@ class HomeController extends BaseController {
             try{
 
                 $order = Session::get("orderobj");
+                $order->ip                              =   $_SERVER["REMOTE_ADDR"];
                 /*$order->order_type                      =   Input::get("order_type");
                 $order->order_amount                    =   Input::get("order_amount");
                 $order->final_amount                    =   Input::get("final_amount");

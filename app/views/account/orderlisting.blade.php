@@ -42,8 +42,11 @@
                         }else{
                             echo "<tr cass='odd' >";
                         }
-                        echo'
-                        <td><a name="97" id="97"></a>#<a href="#" title="view this order detail">'.$order->order_id.'</a></td>
+                        echo '<td>';
+                            ?>
+                        {{HTML::linkRoute('orderdetail',$order->order_id,$order->id)}}
+                        <?php
+                        echo '</td>
                         <td title="06-28 13:54">'. $order->created_at.'</td>
                         <td><img src="../img/15_combo.gif"><span class="money_1">'. $order->order_amount.'</span></td>
                         <td>';
