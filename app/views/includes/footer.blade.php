@@ -41,8 +41,12 @@
                 <div id="tweet" class="twitter">
                     <p><!-- Languages --->
                     </p><div class="language_box">
+
                         </div>
-                    <p></p>
+                    <p><address>44 Osolo Way off MM In't Airport Rd Ajao Estate</address>
+                    <address>70 Mushin Road, Isolo Lagos. </address>
+                    <address>12 Association Avenue Surulere Ijesha Lagos,</address>
+                    </p>
                 </div>
             </div>
             <div class="large-4 columns">

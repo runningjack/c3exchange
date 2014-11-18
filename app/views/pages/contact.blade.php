@@ -64,6 +64,13 @@
            {{ Form::close()}}
 
         </div>
+        <div class="large-6 columns">
+            <address>44 Osolo Way off MM In't Airport Rd Ajao Estate</address>
+            <address>70 Mushin Road, Isolo Lagos. </address>
+            <address>12 Association Avenue Surulere Ijesha Lagos,</address>
+            <p></p>
+            <address><i class="icon-envelope"></i> +2348022275955,+2348182266026,+2348022276112</address>
         </div>
+    </div>
 </div>
 @stop
